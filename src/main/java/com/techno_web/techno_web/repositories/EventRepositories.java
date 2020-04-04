@@ -9,4 +9,7 @@ import com.techno_web.techno_web.entities.Event;
 import java.util.UUID;
 
 public interface EventRepositories extends CrudRepository<Event, UUID> {
+	
+	
+	List<Event> findAll();
 }

@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ public class EventController {
 		
 		loEvent.setValue(12345.456f);
 		loEvent.setEvent_date(new GregorianCalendar());
+		loEvent.setTime_series_id(new UUID(0, 42));
 		
 		try {
 			moEventService.save(loEvent);
@@ -49,7 +51,7 @@ public class EventController {
 			loEvents=moEventService.getAllevents();
 		}catch(Exception loE)
 		{
-			return "ça marche pas ";
+			return "ça marche pas :"+loE.getMessage();
 		}
 		
 		for(Event loCurretnEvent : loEvents)

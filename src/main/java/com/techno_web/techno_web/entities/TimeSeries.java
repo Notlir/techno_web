@@ -7,11 +7,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
+@Entity
+@Table
 public class TimeSeries {
 
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id ;
 
     @NotNull

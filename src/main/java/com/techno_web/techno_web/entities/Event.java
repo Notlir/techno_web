@@ -21,7 +21,7 @@ public class Event {
 	
 	@Id
 	@Column
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id ;
 	
 	@NotNull
@@ -38,6 +38,18 @@ public class Event {
 	
 	@Column
 	private String comments;
+	
+	@NotNull
+	@Column
+	private UUID time_series_id;
+
+	public UUID getTime_series_id() {
+		return time_series_id;
+	}
+
+	public void setTime_series_id(UUID time_series_id) {
+		this.time_series_id = time_series_id;
+	}
 
 	public UUID  getId() {
 		return id;
