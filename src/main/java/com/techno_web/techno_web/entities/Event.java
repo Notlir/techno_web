@@ -1,6 +1,7 @@
 package com.techno_web.techno_web.entities;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,8 +21,8 @@ public class Event {
 	
 	@Id
 	@Column
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int id ;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private UUID id ;
 	
 	@NotNull
 	@Column
@@ -29,7 +30,7 @@ public class Event {
 	
 	@NotNull
 	@Column
-	private double value;
+	private Float value;
 	
 	
 	@Column
@@ -37,12 +38,24 @@ public class Event {
 	
 	@Column
 	private String comments;
+	
+	@NotNull
+	@Column
+	private UUID time_series_id;
 
-	public int getId() {
+	public UUID getTime_series_id() {
+		return time_series_id;
+	}
+
+	public void setTime_series_id(UUID time_series_id) {
+		this.time_series_id = time_series_id;
+	}
+
+	public UUID  getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(UUID  id) {
 		this.id = id;
 	}
 
@@ -54,11 +67,11 @@ public class Event {
 		this.event_date = event_date;
 	}
 
-	public double getValue() {
+	public Float getValue() {
 		return value;
 	}
 
-	public void setValue(double value) {
+	public void setValue(Float value) {
 		this.value = value;
 	}
 
