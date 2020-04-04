@@ -11,9 +11,7 @@ public class EventServiceImpl {
 	
 	@Autowired
 	private EventRepositories moRepository;
-	
-	
-	
+
 	public void save(Event poEvent)
 	{
 		moRepository.save(poEvent);
