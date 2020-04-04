@@ -21,14 +21,6 @@ public class User {
 	@NotNull
 	@Column
 	private String login;
-	
-	@NotNull
-	@Column
-	private String salt;
-	
-	@NotNull
-	@Column
-	private byte[] password;
 
 	public UUID getId() {
 		return id;
@@ -45,21 +37,5 @@ public class User {
 	public void setLogin(String login) {
 		this.login = login;
 	}
-
-	public String getSalt() {
-		return salt;
-	}
-
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
-
-	public byte[] getPassword() {
-		return password;
-	}
-
-	public void setPassword(byte[] password) {
-		this.password = password;
-	}
-
+	
 }
