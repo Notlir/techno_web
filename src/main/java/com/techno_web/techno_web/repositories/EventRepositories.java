@@ -9,7 +9,7 @@ import com.techno_web.techno_web.entities.Event;
 public interface EventRepositories extends CrudRepository<Event,Integer> {
 	
 	
-	@Override
+	
 	List<Event> findAll();
 	
 

@@ -29,7 +29,7 @@ public class Event {
 	
 	@NotNull
 	@Column
-	private double value;
+	private Float value;
 	
 	
 	@Column
@@ -54,11 +54,11 @@ public class Event {
 		this.event_date = event_date;
 	}
 
-	public double getValue() {
+	public Float getValue() {
 		return value;
 	}
 
-	public void setValue(double value) {
+	public void setValue(Float value) {
 		this.value = value;
 	}
 

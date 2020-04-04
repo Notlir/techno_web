@@ -26,7 +26,7 @@ public class EventController {
 	{
 		Event loEvent = new Event();
 		
-		loEvent.setValue(123456789d);
+		loEvent.setValue(12345.456f);
 		loEvent.setEvent_date(new GregorianCalendar());
 		
 		try {
@@ -46,7 +46,7 @@ public class EventController {
 		String lsResponse="results : ";
 		List<Event> loEvents = new ArrayList<Event>();
 		try {
-			moEventService.getAllevents();
+			loEvents=moEventService.getAllevents();
 		}catch(Exception loE)
 		{
 			return "ça marche pas ";
@@ -56,7 +56,8 @@ public class EventController {
 		{
 			lsResponse+=moFormater.format(loCurretnEvent.getEvent_date().getTime());
 			lsResponse+=" -> ";
-			lsResponse+=loCurretnEvent.getValue();
+			lsResponse+=loCurretnEvent.getValue().toString()+"\n";
+			System.out.println(loCurretnEvent.getValue().toString());
 		}
 		
 		return lsResponse;
