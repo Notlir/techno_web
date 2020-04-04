@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.persistence.GeneratedValue;
+import java.util.UUID;
 
 @Entity
 @Table
@@ -15,7 +16,7 @@ public class User {
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int id ;
+	private UUID id ;
 	
 	@NotNull
 	@Column
@@ -29,11 +30,11 @@ public class User {
 	@Column
 	private byte[] password;
 
-	public int getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

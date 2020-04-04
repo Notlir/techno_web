@@ -1,8 +1,8 @@
 CREATE TABLE event(
-	id INT PRIMARY KEY NOT NULL,
+	id UUID  PRIMARY KEY NOT NULL,
 	event_date TIMESTAMP NOT NULL,
 	value  FLOAT NOT NULL,
 	tag VARCHAR2(100 CHAR),
 	comments VARCHAR2(500 CHAR),
-	time_series_id INT NOT NULL
+	time_series_id UUID  NOT NULL
 );

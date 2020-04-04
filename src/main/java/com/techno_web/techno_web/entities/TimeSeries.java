@@ -5,13 +5,14 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 public class TimeSeries {
 
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id ;
+    private UUID id ;
 
     @NotNull
     @Column
@@ -27,11 +28,11 @@ public class TimeSeries {
     @OneToMany
     private List<Event> eventList = new ArrayList<>();
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
