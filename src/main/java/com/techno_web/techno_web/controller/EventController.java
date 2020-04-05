@@ -1,4 +1,4 @@
-package com.techno_web.techno_web;
+package com.techno_web.techno_web.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

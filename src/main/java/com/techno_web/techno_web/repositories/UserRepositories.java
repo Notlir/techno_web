@@ -6,4 +6,11 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.UUID;
 
 public interface UserRepositories extends CrudRepository<User, UUID> {
+	
+	User findByLogin(String login);
+	
+	User findByLoginAndPassword(String login,String password);
+	
+	User findByToken(String token);
+	
 }
