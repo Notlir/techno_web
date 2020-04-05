@@ -287,3 +287,21 @@ CREATE TABLE user
 2020-04-04 15:55:13 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DROP ALL TABLES[*] "; expected "OBJECTS"; SQL statement:
 DROP all TABLES [42001-199]
+2020-04-05 08:52:48 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "EVENT" already exists; SQL statement:
+CREATE TABLE event(
+	id UUID  PRIMARY KEY NOT NULL,
+	event_date TIMESTAMP NOT NULL,
+	value  FLOAT NOT NULL,
+	comments VARCHAR2(500 CHAR),
+	time_series_id UUID  NOT NULL
+) [42101-199]
+2020-04-05 08:53:30 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "EVENT" already exists; SQL statement:
+CREATE TABLE event(
+	id UUID  PRIMARY KEY NOT NULL,
+	event_date TIMESTAMP NOT NULL,
+	value  FLOAT NOT NULL,
+	comments VARCHAR2(500 CHAR),
+	time_series_id UUID  NOT NULL
+) [42101-199]
