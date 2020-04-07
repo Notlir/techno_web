@@ -1,5 +1,7 @@
 package com.techno_web.techno_web.services.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +17,10 @@ public class TimeSeriesServiceImpl {
     public void save(TimeSeries poTimeSeries)
     {
         moRepository.save(poTimeSeries);
+    }
+    
+    public List<TimeSeries> findAll()
+    {
+    	return moRepository.findAll();
     }
 }

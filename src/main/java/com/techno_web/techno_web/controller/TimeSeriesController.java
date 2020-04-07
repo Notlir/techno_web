@@ -2,9 +2,11 @@ package com.techno_web.techno_web.controller;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,17 +46,38 @@ public class TimeSeriesController {
 		loSeries.setTitle(title);
 		loSeries.setCreation_date(new GregorianCalendar());
 		
-		ArrayList<UserRight> loRights = new ArrayList<UserRight>();
-		UserRight loRight = new UserRight(loSeries,loUser,true);
+		loSeries.getUsersHasWriteRights().add(loUser);
 		
-		loRights.add(loRight);
-		
-		
-		loSeries.setRightLists(loRights);
 		
 		moSeriesService.save(loSeries);
 		
 		return ResponseEntity.ok().body("OK");
+	}
+	
+	@GetMapping("/getAllSeries")
+	public ResponseEntity<String> getAllSeries()
+	{
+		List<TimeSeries> loSeries= new ArrayList<TimeSeries>();
+		String result=" results : ";
+		
+		try {
+			loSeries = moSeriesService.findAll();
+		}catch(Exception loE)
+		{
+			return ResponseEntity.status(500).body("Erreur");
+		}
+		
+		for(TimeSeries loSerie : loSeries)
+		{
+			for(User loRight : loSerie.getAllUsers())
+			{
+				result+=loRight.getLogin()+"\n";
+			}
+			
+		}
+		
+		return ResponseEntity.status(200).body(result);
+		
 	}
 	
 	

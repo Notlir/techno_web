@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="user_series_right")
+@Table
 public class UserRight implements Serializable {
 	
 
@@ -20,9 +20,6 @@ public class UserRight implements Serializable {
 	@ManyToOne
 	private User user;
 	
-	@Id
-	@ManyToOne
-	private TimeSeries series;
 	
 	@Column(name="right")
 	private Boolean hasModificationRight;
@@ -30,7 +27,6 @@ public class UserRight implements Serializable {
 	
 	public UserRight(TimeSeries poSeries, User poUser, Boolean pbRight)
 	{
-		this.series=poSeries;
 		this.user=poUser;
 		this.hasModificationRight=pbRight;
 	}
@@ -41,14 +37,6 @@ public class UserRight implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public TimeSeries getSeries() {
-		return series;
-	}
-
-	public void setSeries(TimeSeries series) {
-		this.series = series;
 	}
 
 	public Boolean getHasModificationRight() {

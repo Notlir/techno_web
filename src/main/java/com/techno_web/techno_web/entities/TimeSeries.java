@@ -8,6 +8,7 @@ import org.hibernate.annotations.WhereJoinTable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -35,18 +36,33 @@ public class TimeSeries {
     
 
 	@OneToMany
-    private List<UserRight> rightLists;
+    private List<User> usersHasWriteRights = new ArrayList<User>();
     
-    public List<UserRight> getRightLists() {
-		return rightLists;
-	}
-
-
-	public void setRightLists(List<UserRight> rightLists) {
-		this.rightLists = rightLists;
-	}
-
+	
+	@OneToMany
+    private List<User> usersHasReadRights = new ArrayList<User>();
    
+   
+	public List<User> getUsersHasWriteRights() {
+		return usersHasWriteRights;
+	}
+
+
+	public void setUsersHasWriteRights(List<User> usersHasWriteRights) {
+		this.usersHasWriteRights = usersHasWriteRights;
+	}
+
+
+	public List<User> getUsersHasReadRights() {
+		return usersHasReadRights;
+	}
+
+
+	public void setUsersHasReadRights(List<User> usersHasReadRights) {
+		this.usersHasReadRights = usersHasReadRights;
+	}
+
+
 	public UUID getId() {
         return id;
     }
@@ -86,5 +102,15 @@ public class TimeSeries {
 
     public void setEventList(List<Event> eventList) {
         this.eventList = eventList;
+    }
+    
+    public List<User> getAllUsers()
+    {
+    	ArrayList<User> loAllUsers = new ArrayList<User>();
+    	
+    	loAllUsers.addAll(usersHasReadRights);
+    	loAllUsers.addAll(usersHasWriteRights);
+    	
+    	return loAllUsers;
     }
 }
