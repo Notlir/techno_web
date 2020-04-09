@@ -1,21 +1,29 @@
 package com.techno_web.techno_web.controller;
 
+import java.rmi.ServerError;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.techno_web.techno_web.dto.TimeSeriesDto;
 import com.techno_web.techno_web.entities.TimeSeries;
 import com.techno_web.techno_web.entities.User;
 import com.techno_web.techno_web.entities.UserRight;
+import com.techno_web.techno_web.exceptions.UnauthorizedException;
 import com.techno_web.techno_web.services.impl.EventServiceImpl;
 import com.techno_web.techno_web.services.impl.TimeSeriesServiceImpl;
 import com.techno_web.techno_web.services.impl.UserServiceImpl;
@@ -46,38 +54,27 @@ public class TimeSeriesController {
 		loSeries.setTitle(title);
 		loSeries.setCreation_date(new GregorianCalendar());
 		
-		loSeries.getUsersHasWriteRights().add(loUser);
+		if(loUser.getSeries_with_write_rights()==null)
+		{
+			loUser.setSeries_with_write_rights(new ArrayList<TimeSeries>());
+		}
 		
+		loUser.getSeries_with_write_rights().add(loSeries);
 		
 		moSeriesService.save(loSeries);
+		moUserService.save(loUser);
 		
-		return ResponseEntity.ok().body("OK");
+		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping("/getAllSeries")
-	public ResponseEntity<String> getAllSeries()
+	
+	
+	
+	@GetMapping(path="/getSeriesForMe",
+			produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+	public @ResponseBody List<TimeSeriesDto> getMySeries(@RequestHeader("Authorization") String token)
 	{
-		List<TimeSeries> loSeries= new ArrayList<TimeSeries>();
-		String result=" results : ";
-		
-		try {
-			loSeries = moSeriesService.findAll();
-		}catch(Exception loE)
-		{
-			return ResponseEntity.status(500).body("Erreur");
-		}
-		
-		for(TimeSeries loSerie : loSeries)
-		{
-			for(User loRight : loSerie.getAllUsers())
-			{
-				result+=loRight.getLogin()+"\n";
-			}
-			
-		}
-		
-		return ResponseEntity.status(200).body(result);
-		
+		return moSeriesService.findSeriesForMe(token);
 	}
 	
 	

@@ -618,3 +618,170 @@ alter table time_series_right_lists add constraint FKr431dh2q7ejwxhocjsjj7ckop f
 2020-04-06 19:15:26 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DROP TABLE *[*] "; expected "identifier"; SQL statement:
 drop table * [42001-199]
+2020-04-08 20:29:23 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TIME_SERIES_USERS_HAS_READ_RIGHT" not found; SQL statement:
+Select * from time_series t where t.id in (select time_series_id from time_series_users_has_read_right r left join time_series_users_has_write_right w on r.users_has_read_right_id=w.users_has_write_right_id where (r.users_has_read_right_id = ?1 or w.users_has_write_right_id=?1)) [42102-199]
+2020-04-08 20:30:13 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Ambiguous column name "TIME_SERIES_ID"; SQL statement:
+Select * from time_series t where t.id in (select time_series_id from TIME_SERIES_USERS_HAS_READ_RIGHTS  r left join time_series_users_has_write_rights w on r.users_has_read_right_id=w.users_has_write_right_id where (r.users_has_read_right_id = ?1 or w.users_has_write_right_id=?1)) [90059-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:573)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.mapColumn(ExpressionColumn.java:142)
+	at org.h2.expression.ExpressionColumn.mapColumns(ExpressionColumn.java:116)
+	at org.h2.command.dml.Select.mapColumns(Select.java:1629)
+	at org.h2.command.dml.Select.init(Select.java:1164)
+	at org.h2.command.Parser.parseSelect(Parser.java:2447)
+	at org.h2.command.Parser.readCondition(Parser.java:2969)
+	at org.h2.command.Parser.readAnd(Parser.java:2872)
+	at org.h2.command.Parser.readExpression(Parser.java:2864)
+	at org.h2.command.Parser.parseSelectSimple(Parser.java:2792)
+	at org.h2.command.Parser.parseSelectSub(Parser.java:2636)
+	at org.h2.command.Parser.parseSelectUnion(Parser.java:2469)
+	at org.h2.command.Parser.parseSelect(Parser.java:2440)
+	at org.h2.command.Parser.parsePrepared(Parser.java:814)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:1113)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1436)
+	at org.h2.server.web.WebApp.query(WebApp.java:1111)
+	at org.h2.server.web.WebApp.query(WebApp.java:1087)
+	at org.h2.server.web.WebApp.process(WebApp.java:237)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:169)
+	at org.h2.server.web.WebServlet.doGet(WebServlet.java:121)
+	at org.h2.server.web.WebServlet.doPost(WebServlet.java:158)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1639)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+2020-04-08 20:32:31 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM TIME_SERIES T WHERE T.ID IN (SELECT TIME_SERIES_ID FROM TIME_SERIES_USERS_HAS_WRITE_RIGHTS R WHERE R.USERS_HAS_WRITE_RIGHTS_ID=99D8BC6070E54A00A637AABDDE210C7E[*])) "; expected "[, ::, *, /, %, +, -, ||, ~, !~, NOT, LIKE, ILIKE, REGEXP, IS, IN, BETWEEN, AND, OR, GROUP, HAVING, WINDOW, QUALIFY, UNION, EXCEPT, MINUS, INTERSECT, ORDER, OFFSET, FETCH, LIMIT, SAMPLE_SIZE, FOR, )"; SQL statement:
+Select * from time_series t where t.id in (select time_series_id from time_series_users_has_write_rights r where r.USERS_HAS_WRITE_RIGHTS_ID=99d8bc6070e54a00a637aabdde210c7e)) [42001-199]
+2020-04-08 20:32:45 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM TIME_SERIES T WHERE T.ID IN (SELECT TIME_SERIES_ID FROM TIME_SERIES_USERS_HAS_WRITE_RIGHTS R WHERE R.USERS_HAS_WRITE_RIGHTS_ID='99d8bc6070e54a00a637aabdde210c7e'))[*] "; SQL statement:
+Select * from time_series t where t.id in (select time_series_id from time_series_users_has_write_rights r where r.USERS_HAS_WRITE_RIGHTS_ID='99d8bc6070e54a00a637aabdde210c7e')) [42000-199]
+2020-04-08 20:32:54 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM TIME_SERIES T WHERE T.ID IN (SELECT TIME_SERIES_ID FROM TIME_SERIES_USERS_HAS_WRITE_RIGHTS R WHERE R.USERS_HAS_WRITE_RIGHTS_ID='99d8bc6070e54a00a637aabdde210c7e'))[*] "; SQL statement:
+Select * from time_series t where t.id in (select time_series_id from time_series_users_has_write_rights r where r.USERS_HAS_WRITE_RIGHTS_ID='99d8bc6070e54a00a637aabdde210c7e')) [42000-199]
+2020-04-08 20:34:01 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Function "IN" not found; SQL statement:
+Select * from time_series t where t.id in (select time_series_id from time_series_users_has_write_rights r where r.USERS_HAS_WRITE_RIGHTS_ID='99d8bc6070e54a00a637aabdde210c7e') or in(select time_series_id from TIME_SERIES_USERS_HAS_READ_RIGHTS  r where r.USERS_HAS_READ_RIGHTS_ID='99d8bc6070e54a00a637aabdde210c7e') [90022-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:573)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.command.Parser.readJavaFunction(Parser.java:3288)
+	at org.h2.command.Parser.readFunction(Parser.java:3495)
+	at org.h2.command.Parser.readTerm(Parser.java:3970)
+	at org.h2.command.Parser.readFactor(Parser.java:3090)
+	at org.h2.command.Parser.readSum(Parser.java:3077)
+	at org.h2.command.Parser.readConcat(Parser.java:3047)
+	at org.h2.command.Parser.readCondition(Parser.java:2900)
+	at org.h2.command.Parser.readAnd(Parser.java:2872)
+	at org.h2.command.Parser.readExpression(Parser.java:2866)
+	at org.h2.command.Parser.parseSelectSimple(Parser.java:2792)
+	at org.h2.command.Parser.parseSelectSub(Parser.java:2636)
+	at org.h2.command.Parser.parseSelectUnion(Parser.java:2469)
+	at org.h2.command.Parser.parseSelect(Parser.java:2440)
+	at org.h2.command.Parser.parsePrepared(Parser.java:814)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:1113)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1436)
+	at org.h2.server.web.WebApp.query(WebApp.java:1111)
+	at org.h2.server.web.WebApp.query(WebApp.java:1087)
+	at org.h2.server.web.WebApp.process(WebApp.java:237)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:169)
+	at org.h2.server.web.WebServlet.doGet(WebServlet.java:121)
+	at org.h2.server.web.WebServlet.doPost(WebServlet.java:158)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1639)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+2020-04-09 11:58:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select timeseries0_.id as id1_2_, timeseries0_.comments as comments2_2_, timeseries0_.creation_date as creation3_2_, timeseries0_.title as title4_2_ from time_series timeseries0_ cross join time_series_users_has_write_rights usershaswr1_, user user2_ cross join time_series_users_has_read_rights usershasre3_, user user4_ where timeseries0_.id=usershaswr1_.time_series_id and usershaswr1_.users_has_write_rights_id=user2_.id and timeseries0_.id=usershasre3_.time_series_id and usershasre3_.users_has_read_rights_id=user4_.id and (? in ({non-qualified-property-ref}) or ? in ({non-qualified-property-ref}))[*]" [42000-199]
+2020-04-09 12:02:08 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT TIMESERIES0_.ID AS ID1_2_, TIMESERIES0_.COMMENTS AS COMMENTS2_2_, TIMESERIES0_.CREATION_DATE AS CREATION3_2_, TIMESERIES0_.TITLE AS TITLE4_2_ FROM TIME_SERIES TIMESERIES0_ CROSS JOIN TIME_SERIES_USERS_HAS_WRITE_RIGHTS USERSHASWR1_, USER USER2_ WHERE TIMESERIES0_.ID=USERSHASWR1_.TIME_SERIES_ID AND USERSHASWR1_.USERS_HAS_WRITE_RIGHTS_ID=USER2_.ID AND (? IN (.[*])) "; expected "NOT, EXISTS, INTERSECTS"; SQL statement:
+select timeseries0_.id as id1_2_, timeseries0_.comments as comments2_2_, timeseries0_.creation_date as creation3_2_, timeseries0_.title as title4_2_ from time_series timeseries0_ cross join time_series_users_has_write_rights usershaswr1_, user user2_ where timeseries0_.id=usershaswr1_.time_series_id and usershaswr1_.users_has_write_rights_id=user2_.id and (? in (.)) [42001-199]
+2020-04-09 18:00:18 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DROP USER [*]"; expected "identifier"; SQL statement:
+drop USER [42001-199]
+2020-04-09 18:19:12 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DROP USER_SERIES_WITH_RIGHTS[*] "; expected "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, VIEW, ROLE, ALIAS, SCHEMA, ALL, DOMAIN, TYPE, DATATYPE, AGGREGATE, SYNONYM"; SQL statement:
+Drop USER_SERIES_WITH_RIGHTS [42001-199]
+2020-04-09 18:23:05 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DROP *[*] FROM TIME_SERIES "; expected "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, VIEW, ROLE, ALIAS, SCHEMA, ALL, DOMAIN, TYPE, DATATYPE, AGGREGATE, SYNONYM"; SQL statement:
+DROP * from TIME_SERIES [42001-199]

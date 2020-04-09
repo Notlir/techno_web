@@ -1,6 +1,7 @@
 package com.techno_web.techno_web.entities;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,27 +18,42 @@ public class UserRight implements Serializable {
 	private static final long serialVersionUID = -1908601800042623845L;
 
 	@Id
+	private UUID id;
+	
 	@ManyToOne
-	private User user;
+	private TimeSeries timeseries;
 	
 	
 	@Column(name="right")
 	private Boolean hasModificationRight;
 	
 	
-	public UserRight(TimeSeries poSeries, User poUser, Boolean pbRight)
+	public UserRight(TimeSeries poSeries, Boolean pbRight)
 	{
-		this.user=poUser;
+		this.timeseries=poSeries;
 		this.hasModificationRight=pbRight;
 	}
 	
-	public User getUser() {
-		return user;
+
+	public UUID getId() {
+		return id;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+
+	public void setId(UUID id) {
+		this.id = id;
 	}
+
+
+	public TimeSeries getTimeseries() {
+		return timeseries;
+	}
+
+
+	public void setTimeseries(TimeSeries timeseries) {
+		this.timeseries = timeseries;
+	}
+
 
 	public Boolean getHasModificationRight() {
 		return hasModificationRight;

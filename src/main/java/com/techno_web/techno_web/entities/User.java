@@ -4,11 +4,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.persistence.GeneratedValue;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -38,6 +40,30 @@ public class User {
 	@Column
 	private Calendar token_creation;
 	
+	@OneToMany
+	private List<TimeSeries> series_with_write_rights;
+	
+	@OneToMany
+	private List<TimeSeries> series_with_read_rights;
+	
+
+
+	public List<TimeSeries> getSeries_with_write_rights() {
+		return series_with_write_rights;
+	}
+
+	public void setSeries_with_write_rights(List<TimeSeries> series_with_write_rights) {
+		this.series_with_write_rights = series_with_write_rights;
+	}
+
+	public List<TimeSeries> getSeries_with_read_rights() {
+		return series_with_read_rights;
+	}
+
+	public void setSeries_with_read_rights(List<TimeSeries> series_with_read_rights) {
+		this.series_with_read_rights = series_with_read_rights;
+	}
+
 	public String getSalt() {
 		return salt;
 	}

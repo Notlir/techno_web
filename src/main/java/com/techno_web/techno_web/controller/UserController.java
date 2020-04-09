@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -15,11 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ServerErrorException;
 
 import com.techno_web.techno_web.entities.User;
+import com.techno_web.techno_web.exceptions.UnauthorizedException;
 import com.techno_web.techno_web.services.impl.UserServiceImpl;
 import com.techno_web.techno_web.wrapper.LoginWrapper;
+import com.techno_web.techno_web.wrapper.TokenWrapper;
 
 @RestController
 public class UserController {
@@ -56,93 +61,54 @@ public class UserController {
 	}
 	
 	
-	@PostMapping(
-			path="/login",
-			consumes = {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<String> login(@RequestBody LoginWrapper poLoginInfo)
-	{
-		ResponseEntity<String> response;
-		
-		Integer status = findUser(poLoginInfo.getLogin(),poLoginInfo.getPassword());
-		
-		switch(status)
-		{
-			case 200:
-				response = ResponseEntity.ok().body("Bienvenue !");
-				break;
-			case 401:
-				response = ResponseEntity.status(401).body("Utilisateur ou mot de passe incorrect");
-				break;
-			default :
-				response = ResponseEntity.status(500).body("erreur lors de l'identification");
-				break;	
-		}
-		
-		return response;
-	}
+
 	
 	@PostMapping(
 			path="/login",
-			consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-	public ResponseEntity<String> login(@RequestParam MultiValueMap<String, String> poParams)
-	{
-		ResponseEntity<String> response;
-		
-		Integer status = findUser(poParams.get(LOGIN_KEY).get(0),poParams.get(PASSSWORD_KEY).get(0));
-		
-		switch(status)
-		{
-			case 200:
-				response = ResponseEntity.ok().body("Bienvenue !");
-				break;
-			case 401:
-				response = ResponseEntity.status(401).body("Utilisateur ou mot de passe incorrect");
-				break;
-			default :
-				response = ResponseEntity.status(500).body("erreur lors de l'identification");
-				break;	
-		}
-		
-		return response;
-	}
-	
-	
-	private Integer findUser(String psLogin, String psPassword)
+			consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE},
+			produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+	public @ResponseBody TokenWrapper login(@RequestBody LoginWrapper poParams)
 	{
 		User loUser=null;
 		try {
 			
-			loUser = moUserService.findUserByLoginAndPassword(psLogin, psPassword);
+			loUser = moUserService.findUserByLoginAndPassword(poParams.getLogin(), poParams.getPassword());
 			
 		}catch(Exception loE)
 		{
 			System.out.println(loE);
-			return 500;
+			throw new ServerErrorException("Erreur lors de l'identification", loE);
 			
 		}
 		
 		if(loUser == null)
 		{
-			return 401;
+			throw new UnauthorizedException();
 		}
 		
 		
-		UUID loEtag = UUID.randomUUID();
-		loUser.setToken(loEtag.toString());
+		UUID loToken = UUID.randomUUID();
+		loUser.setToken(loToken.toString());
 		loUser.setToken_creation(new GregorianCalendar());
+		
+		TokenWrapper loResponse = new TokenWrapper();
+		loResponse.setToken(loToken.toString());
 		
 		try {
 			
 			loUser = moUserService.save(loUser);
 			
+			
 		}catch(Exception loE)
 		{
 			System.out.println(loE);
-			return 500;
+			throw new ServerErrorException("Erreur lors de l'identification", loE);
 		}
 		
-		return 200;
-		
+		return loResponse;
 	}
+	
+	
+	
 	
 }
