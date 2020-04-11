@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.techno_web.techno_web.dto.TimeSeriesDetailDto;
 import com.techno_web.techno_web.dto.TimeSeriesDto;
 import com.techno_web.techno_web.entities.TimeSeries;
 import com.techno_web.techno_web.entities.User;
@@ -77,6 +78,12 @@ public class TimeSeriesController {
 		return moSeriesService.findSeriesForMe(token);
 	}
 	
-	
+	@GetMapping(path="/getSeries/{id}",
+			produces= {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE,MediaType.TEXT_PLAIN_VALUE})
+	public @ResponseBody TimeSeriesDetailDto getSeries(@RequestHeader("Authorization") String token, @PathVariable("id") String id)
+	{
+		
+		
+	}
 
 }

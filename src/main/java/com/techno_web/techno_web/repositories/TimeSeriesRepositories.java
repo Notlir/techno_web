@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface TimeSeriesRepositories extends CrudRepository<TimeSeries, UUID> {
@@ -15,8 +16,8 @@ public interface TimeSeriesRepositories extends CrudRepository<TimeSeries, UUID>
 	
 	List<TimeSeries> findAll();
 	
-	
-	//List<TimeSeries> findByUsersHasWriteRightsContainingOrUsersHasReadRightsContaining(User user,User user2);
+	@Override
+	Optional<TimeSeries> findById(UUID id);
 
 	
 }

@@ -1,12 +1,15 @@
 package com.techno_web.techno_web.entities;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.persistence.GeneratedValue;
@@ -33,23 +36,12 @@ public class Event {
 	private Float value;
 	
 	
-	@Column
-	private String tag;
+	@ElementCollection
+	private List<String> tag;
 	
 	@Column
 	private String comments;
 	
-	@NotNull
-	@Column
-	private UUID time_series_id;
-
-	public UUID getTime_series_id() {
-		return time_series_id;
-	}
-
-	public void setTime_series_id(UUID time_series_id) {
-		this.time_series_id = time_series_id;
-	}
 
 	public UUID  getId() {
 		return id;
@@ -75,11 +67,11 @@ public class Event {
 		this.value = value;
 	}
 
-	public String getTag() {
+	public List<String> getTag() {
 		return tag;
 	}
 
-	public void setTag(String tag) {
+	public void setTag(List<String> tag) {
 		this.tag = tag;
 	}
 

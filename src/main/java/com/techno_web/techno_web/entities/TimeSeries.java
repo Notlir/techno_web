@@ -32,7 +32,7 @@ public class TimeSeries {
     private Calendar creation_date;
 
     @OneToMany
-    private List<Event> eventList;
+    private List<Event> eventList = new ArrayList<Event>();
     
       
 
