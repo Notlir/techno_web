@@ -1,4 +1,4 @@
-package com.techno_web.techno_web;
+package com.techno_web.techno_web.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -2,9 +2,13 @@ package com.techno_web.techno_web.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.WhereJoinTable;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -28,13 +32,16 @@ public class TimeSeries {
     private Calendar creation_date;
 
     @OneToMany
-    private List<Event> eventList = new ArrayList<>();
+    private List<Event> eventList = new ArrayList<Event>();
+    
+      
 
-    public UUID getId() {
+	public UUID getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+
+	public void setId(UUID id) {
         this.id = id;
     }
 
@@ -69,4 +76,5 @@ public class TimeSeries {
     public void setEventList(List<Event> eventList) {
         this.eventList = eventList;
     }
+    
 }
