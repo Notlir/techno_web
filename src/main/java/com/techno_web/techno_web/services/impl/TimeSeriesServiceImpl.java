@@ -34,12 +34,14 @@ public class TimeSeriesServiceImpl {
     public List<TimeSeriesDto> findSeriesForMe(String token) throws UnauthorizedException
     {
     	User loUser;
-		try {
-		 loUser = moUserService.findUserByEtag(token);
-		}catch(Exception loE)
+    	
+		loUser = moUserService.findUserByEtag(token);
+		
+		if(loUser == null)
 		{
-			throw new UnauthorizedException();
+			throw new UnauthorizedException("Token Expired");
 		}
+		
 		List<TimeSeriesDto> loResponse= new ArrayList<TimeSeriesDto>();
 		try {
 		
@@ -60,11 +62,11 @@ public class TimeSeriesServiceImpl {
 		
 		for (TimeSeries loSerie : poUser.getSeries_with_write_rights())
 		{
-			loResult.add(new TimeSeriesDto(loSerie.getTitle(),loSerie.getComments(),true));
+			loResult.add(new TimeSeriesDto(loSerie.getId().toString(),loSerie.getTitle(),loSerie.getComments(),true));
 		}
 		for (TimeSeries loSerie : poUser.getSeries_with_read_rights())
 		{
-			loResult.add(new TimeSeriesDto(loSerie.getTitle(),loSerie.getComments(),true));
+			loResult.add(new TimeSeriesDto(loSerie.getId().toString(),loSerie.getTitle(),loSerie.getComments(),false));
 		}
 		
 		return loResult;

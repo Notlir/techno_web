@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -69,44 +70,38 @@ public class UserController {
 			produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody TokenWrapper login(@RequestBody LoginWrapper poParams)
 	{
-		User loUser=null;
-		try {
-			
-			loUser = moUserService.findUserByLoginAndPassword(poParams.getLogin(), poParams.getPassword());
-			
-		}catch(Exception loE)
-		{
-			System.out.println(loE);
-			throw new ServerErrorException("Erreur lors de l'identification", loE);
-			
-		}
-		
-		if(loUser == null)
-		{
-			throw new UnauthorizedException();
-		}
-		
-		
-		UUID loToken = UUID.randomUUID();
-		loUser.setToken(loToken.toString());
-		loUser.setToken_creation(new GregorianCalendar());
 		
 		TokenWrapper loResponse = new TokenWrapper();
-		loResponse.setToken(loToken.toString());
-		
-		try {
-			
-			loUser = moUserService.save(loUser);
-			
-			
-		}catch(Exception loE)
-		{
-			System.out.println(loE);
-			throw new ServerErrorException("Erreur lors de l'identification", loE);
-		}
+		loResponse.setToken(moUserService.doLogin(poParams));
 		
 		return loResponse;
 	}
+	
+	@PostMapping(
+			path="/doSignUp",
+			consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE}
+			)
+	public ResponseEntity<String> signUp(@RequestBody LoginWrapper poParams)
+	{
+		if(moUserService.doSignUp(poParams)!=null)
+		{
+			return ResponseEntity.ok().build();
+		}
+		else
+		{
+			return ResponseEntity.status(500).body("Impossible créer l'utilisateur");
+		}
+		
+	}
+	
+	@PostMapping(path="/logout")
+	public ResponseEntity<String> logout(@RequestHeader("Authorization") String token)
+	{
+		moUserService.doLogout(token);
+		
+		return ResponseEntity.ok().build();
+	}
+	
 	
 	
 	

@@ -18,8 +18,9 @@ public class TimeSeriesDto {
 	
 	private boolean hasModificationRight;
 	
-	public TimeSeriesDto(String title, String description, boolean hasModification)
+	public TimeSeriesDto(String id,String title, String description, boolean hasModification)
 	{
+		this.id=id;
 		this.title=title;
 		this.description = description;
 		this.hasModificationRight = hasModification;
