@@ -99,7 +99,7 @@ public class UserServiceImpl {
     
     public User doSignUp(LoginWrapper poLogin)
     {
-    	if(findByLogin(poLogin.getLogin())!=null)
+    	if(findByLogin(poLogin.getLogin())!= null)
     	{
     		throw new ConflictException();
     	}

@@ -83,7 +83,7 @@ public class TimeSeriesController {
 	public @ResponseBody TimeSeriesDetailDto getSeries(@RequestHeader("Authorization") String token, @PathVariable("id") String id)
 	{
 		
-		
+		return null;
 	}
 
 }
