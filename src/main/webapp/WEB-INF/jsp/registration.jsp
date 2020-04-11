@@ -1,4 +1,3 @@
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,19 +5,21 @@
       <title>Create an account</title>
   </head>
   <body>
+  <style><%@include file="/WEB-INF/jsp/resources/css/bootstrap.min.css"%></style>
+  <style><%@include file="/WEB-INF/jsp/resources/css/common.css"%></style>
     <div class="container">
-        <form method="POST" action="/registration" th:object="${loginWrapper}">
-            <h2>Create your account</h2>
-            <div>
-                 <input type="text" th:field=*{login} placeholder="Login" autofocus="true"></input>
+        <form method="POST" action="/registration" class="form-signin">
+            <h2 class="form-heading">Create your account</h2>
+            <div class="form-group">
+                 <input type="text" name="login" class="form-control" placeholder="Login" autofocus="true"></input>
             </div>
-            <div>
-                 <input type="password" th:field=*{password} placeholder="Password"></input>
+            <div class="form-group">
+                 <input type="password" name="password" class="form-control" placeholder="Password"></input>
             </div>
-            <div class="form-example">
-           	    <input type="submit" value="Sign Up">
-            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
         </form>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="/WEB-INF/jsp/resources//js/bootstrap.min.js"></script>
   </body>
 </html>
