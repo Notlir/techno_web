@@ -14,8 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -82,8 +84,26 @@ public class TimeSeriesController {
 			produces= {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE,MediaType.TEXT_PLAIN_VALUE})
 	public @ResponseBody TimeSeriesDetailDto getSeries(@RequestHeader("Authorization") String token, @PathVariable("id") String id)
 	{
+		return moSeriesService.getTimeSeriesDetail(id, token);
+	
+	}
+	
+	
+	@PutMapping(path="/updateSeries/{id}",
+			consumes= {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+	public ResponseEntity<String> updateTimeSeries(@RequestHeader("Authorization") String token, @PathVariable("id") String id, @RequestBody TimeSeriesDto poUpdatedTimeSeries)
+	{
+		moSeriesService.updateTimeSeries(token, id, poUpdatedTimeSeries);
 		
+		return ResponseEntity.ok().build();
+	}
+	
+	@PutMapping(path="/giveRightToUsers/{id}")
+	public ResponseEntity<String> giveAccessRightToUser(@RequestHeader("Authorization") String token, @PathVariable("id") String id,@RequestParam("to") String givenUSerId,@RequestParam("writeRight") boolean writeRight)
+	{
+		moSeriesService.giveRightToUser(token, id, givenUSerId, writeRight);
 		
+		return ResponseEntity.ok().build();
 	}
 
 }

@@ -8,11 +8,15 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.techno_web.techno_web.dto.EventDto;
+import com.techno_web.techno_web.dto.TimeSeriesDetailDto;
 import com.techno_web.techno_web.dto.TimeSeriesDto;
+import com.techno_web.techno_web.entities.Event;
 import com.techno_web.techno_web.entities.TimeSeries;
 import com.techno_web.techno_web.entities.User;
 import com.techno_web.techno_web.exceptions.NotFoundException;
 import com.techno_web.techno_web.exceptions.UnauthorizedException;
+import com.techno_web.techno_web.exceptions.UnprocessableException;
 import com.techno_web.techno_web.repositories.TimeSeriesRepositories;
 
 
@@ -87,5 +91,84 @@ public class TimeSeriesServiceImpl {
 		
 		return loResult;
 	}
+    
+    public TimeSeriesDetailDto getTimeSeriesDetail(String id, String token)
+    {
+    	User loUser = moUserService.findUserByEtag(token);
+    	
+    	TimeSeries loTimeSeries = findById(id);
+    	
+    	TimeSeriesDetailDto loSeriesDetails =null;
+    	
+    	ArrayList<EventDto> loEventList = new ArrayList<EventDto>() ;
+    	
+    	
+    	
+    	if(loTimeSeries!=null)
+    	{
+    		loSeriesDetails= new TimeSeriesDetailDto();
+    		loSeriesDetails.setId(loTimeSeries.getId().toString());
+    		loSeriesDetails.setTitle(loTimeSeries.getTitle());
+    		loSeriesDetails.setDescription(loTimeSeries.getComments());
+    		loSeriesDetails.setHasModificationRight(loUser.findRightForTimeSeries(loTimeSeries));
+    		for(Event loEvent : loTimeSeries.getEventList())
+    		{
+    			EventDto loEventDto = new EventDto();
+    			loEventDto.setId(loEvent.getId().toString());
+    			loEventDto.setTime(loEvent.getEvent_date());
+    			loEventDto.setValue(loEvent.getValue());
+    			loEventDto.setComment(loEvent.getComments());
+    			loEventDto.setTags(loEvent.getTag());
+    			loEventList.add(loEventDto);
+    		}
+    		
+    		loSeriesDetails.setEventList(loEventList);
+    	}
+    	
+    	return loSeriesDetails;
+    	
+    }
+    
+    public void updateTimeSeries(String token, String id, TimeSeriesDto timeSeriesUpdated)
+    {
+    	User loUser = moUserService.findUserByEtag(token);
+    	
+    	TimeSeries loTimeSeries = findById(id);
+    	
+    	if(!loUser.findRightForTimeSeries(loTimeSeries))
+    	{
+    		throw new UnauthorizedException("The user do not have the right to alter this time series");
+    	}
+    	
+    	if(timeSeriesUpdated.getTitle()==null || timeSeriesUpdated.getTitle().isEmpty())
+    	{
+    		throw new UnprocessableException("Title cannot be null !");
+    	}
+    	
+    	loTimeSeries.setTitle(timeSeriesUpdated.getTitle());
+    	loTimeSeries.setComments(timeSeriesUpdated.getDescription());
+ 
+    	save(loTimeSeries);
+    	
+    }
+    
+    public void giveRightToUser(String token, String seriesId, String Userid, boolean writeRight)
+    {
+    	User loUser = moUserService.findUserByEtag(token);
+    	
+    	User loGivenUser = moUserService.findById(Userid);
+    	
+    	TimeSeries loTimeSeries = findById(seriesId);
+    	
+    	if(!loUser.findRightForTimeSeries(loTimeSeries))
+    	{
+    		throw new UnauthorizedException("The user do not have the right to grant right on this series");
+    	}
+    	
+    	loGivenUser.addSeriesWithRight(loTimeSeries, writeRight);
+    	
+    	moUserService.save(loGivenUser);
+    	
+    }
 	
 }

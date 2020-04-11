@@ -34,6 +34,11 @@ public class UserServiceImpl {
     	return moRepository.findByLogin(psLogin);
     }
     
+    public User findById(String psId)
+    {
+    	return moRepository.findById(UUID.fromString(psId)).get();
+    }
+    
     public User findUserByLoginAndPassword(String psLogin,String psPassword)
     {
     	return moRepository.findByLoginAndPassword(psLogin, psPassword);

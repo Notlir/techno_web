@@ -9,6 +9,7 @@ import com.techno_web.techno_web.dto.EventDto;
 import com.techno_web.techno_web.entities.Event;
 import com.techno_web.techno_web.entities.TimeSeries;
 import com.techno_web.techno_web.entities.User;
+import com.techno_web.techno_web.exceptions.UnauthorizedException;
 import com.techno_web.techno_web.repositories.EventRepositories;
 
 @Service
@@ -37,10 +38,14 @@ public class EventServiceImpl {
 	
 	public void createNewEvent(EventDto loDto,String token,String id)
 	{
-		//to check if the token is still valid and tue user is logged in
-		moUserService.findUserByEtag(token);
+		User loUser=moUserService.findUserByEtag(token);
 		
 		TimeSeries loTimeSeries = moTimeSeriesService.findById(id);
+		
+		if(!loUser.findRightForTimeSeries(loTimeSeries))
+		{
+			throw new UnauthorizedException("this user has no rights to add new events on this series");
+		}
 		
 		Event loNewEvent = new Event();
 		loNewEvent.setEvent_date(loDto.getTime());

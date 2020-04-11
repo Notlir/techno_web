@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.persistence.GeneratedValue;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -111,6 +112,57 @@ public class User {
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+	
+	public Boolean findRightForTimeSeries(TimeSeries poSeries)
+	{
+		if(series_with_write_rights.contains(poSeries))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public List<TimeSeries> getAllTimeSeries()
+	{
+		ArrayList<TimeSeries> allSeries = new ArrayList<>();
+		
+		allSeries.addAll(series_with_read_rights);
+		allSeries.addAll(series_with_write_rights);
+		
+		return allSeries;
+	}
+	
+	public void addSeriesWithRight(TimeSeries poSeries,boolean writeRights)
+	{
+		if(writeRights)
+		{
+			if(series_with_read_rights.contains(poSeries))
+			{
+				series_with_read_rights.remove(poSeries);
+				
+			}
+			if(!series_with_write_rights.contains(poSeries))
+			{
+				series_with_write_rights.add(poSeries);
+			}
+			
+		}
+		else
+		{
+			if(!series_with_read_rights.contains(poSeries) && !series_with_read_rights.contains(poSeries))
+			{
+				
+				series_with_read_rights.add(poSeries);
+			}
+			
+			
+		}
+		
+		
 	}
 	
 }

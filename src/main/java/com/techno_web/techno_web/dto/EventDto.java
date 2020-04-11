@@ -5,6 +5,16 @@ import java.util.List;
 
 public class EventDto {
 	
+	private String id;
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	private Calendar time;
 	
 	private Float value;
