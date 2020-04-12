@@ -1,5 +1,6 @@
 package com.techno_web.techno_web.services.impl;
 
+import com.techno_web.techno_web.entities.TimeSeries;
 import com.techno_web.techno_web.entities.User;
 import com.techno_web.techno_web.exceptions.ConflictException;
 import com.techno_web.techno_web.exceptions.UnauthorizedException;
@@ -9,6 +10,7 @@ import com.techno_web.techno_web.wrapper.TokenWrapper;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,6 +136,19 @@ public class UserServiceImpl {
     	save(loUser);
     	
 
+    }
+    
+    public List<User> findByTimeSeries(TimeSeries poTimeSeries)
+    {
+    	List<User> loUsers= moRepository.findUsersBySeriesWithWrite(poTimeSeries);
+    	loUsers.addAll(moRepository.findUsersBySeriesWithRead(poTimeSeries));
+    	
+    	return loUsers;
+    }
+    
+    public void saveAll(List<User> poUsers)
+    {
+    	moRepository.saveAll(poUsers);
     }
     
 }

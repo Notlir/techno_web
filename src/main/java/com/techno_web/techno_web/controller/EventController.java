@@ -11,6 +11,7 @@ import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -46,6 +47,15 @@ public class EventController {
 	public ResponseEntity<String> updateEvent(@RequestHeader("Authorization") String token,@RequestBody EventDto event, @PathVariable("id_series") String idSeries, @PathVariable("id_event")String id_event )
 	{
 		moEventService.updateEvent(token, idSeries, id_event, event);
+		
+		return ResponseEntity.ok().build();
+	}
+	
+	
+	@DeleteMapping(path="/series/{id_series}/deleteEvent/{id_event}")
+	public ResponseEntity<String> deleteEvent(@RequestHeader("Authorization") String token,@PathVariable("id_series") String id_series, @PathVariable("id_event")String id_event)
+	{
+		moEventService.deleteEvent(token, id_series, id_event);
 		
 		return ResponseEntity.ok().build();
 	}

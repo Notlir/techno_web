@@ -1,5 +1,6 @@
 package com.techno_web.techno_web.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -92,5 +93,39 @@ public class EventServiceImpl {
 		
 		save(loEvent);
 	}
+	
+	public void deleteEvent(String token, String id_series, String id_event)
+	{
+		User loUser = moUserService.findUserByEtag(token);
+		
+		TimeSeries loTimeSeries = moTimeSeriesService.findById(id_series);
+		
+		if(!loUser.findRightForTimeSeries(loTimeSeries))
+		{
+			throw new UnauthorizedException("The user does not have the right to delete events in this series");
+		}
+		
+		Event loEvent = findById(id_event);
+		
+		loTimeSeries.getEventList().remove(loEvent);
+		
+		moTimeSeriesService.save(loTimeSeries);
+		
+		moRepository.delete(loEvent);
+	}
+	
+	public void deleteAllEventForTimeSeries(TimeSeries poTimeSeries)
+	{
+		List<Event> loEvents = poTimeSeries.getEventList();
+		
+		poTimeSeries.setEventList(null);
+		
+		//necessary to save to delete all events constraints in db;
+		moTimeSeriesService.save(poTimeSeries);
+		
+		moRepository.deleteAll(loEvents);
+		
+	}
+	
 
 }

@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.transaction.Transactional;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -102,6 +104,15 @@ public class TimeSeriesController {
 	public ResponseEntity<String> giveAccessRightToUser(@RequestHeader("Authorization") String token, @PathVariable("id") String id,@RequestParam("to") String givenUSerId,@RequestParam("writeRight") boolean writeRight)
 	{
 		moSeriesService.giveRightToUser(token, id, givenUSerId, writeRight);
+		
+		return ResponseEntity.ok().build();
+	}
+	
+	
+	@DeleteMapping(path="/series/{id}/deleteSeries")
+	public ResponseEntity<String> deleteSeries(@RequestHeader("Authorization") String token,@PathVariable("id") String id)
+	{
+		moSeriesService.deleteSeries(token, id);
 		
 		return ResponseEntity.ok().build();
 	}

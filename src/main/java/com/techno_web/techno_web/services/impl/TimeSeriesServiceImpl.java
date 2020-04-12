@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,9 @@ public class TimeSeriesServiceImpl {
     
     @Autowired
     private UserServiceImpl moUserService;
+    
+    @Autowired
+    private EventServiceImpl moEventService;
 
     public void save(TimeSeries poTimeSeries)
     {
@@ -168,6 +173,33 @@ public class TimeSeriesServiceImpl {
     	loGivenUser.addSeriesWithRight(loTimeSeries, writeRight);
     	
     	moUserService.save(loGivenUser);
+    	
+    }
+    
+    @Transactional
+    public void deleteSeries(String token,String id)
+    {
+    	User loUser = moUserService.findUserByEtag(token);
+    	
+    	TimeSeries loTimeSeries = findById(id);
+    	
+    	if(!loUser.findRightForTimeSeries(loTimeSeries))
+    	{
+    		throw new UnauthorizedException("This user does not have the right to delete this series");
+    	}  	
+    	
+    	List<User> loUsersWithSeries = moUserService.findByTimeSeries(loTimeSeries);
+    	
+    	for(User loUsers : loUsersWithSeries)
+    	{
+    		loUsers.removeTimeSeries(loTimeSeries);
+    	}
+    	
+    	moUserService.saveAll(loUsersWithSeries);
+    	
+    	moEventService.deleteAllEventForTimeSeries(loTimeSeries);
+    	
+    	moRepository.delete(loTimeSeries);
     	
     }
 	
