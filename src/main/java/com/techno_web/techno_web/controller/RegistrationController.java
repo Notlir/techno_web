@@ -5,14 +5,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class LoginController {
-	
-	@GetMapping(path = {"/", "/loginPage"})
-	public String getLoginPage(Model model)
-	{
-		return "login";
-	}
-	
-	
+public class RegistrationController {
+
+    @GetMapping("/registrationPage")
+    public String getLoginPage(Model model)
+    {
+        return "registration";
+    }
+
+
 
 }
