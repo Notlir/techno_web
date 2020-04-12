@@ -56,7 +56,7 @@ public class UserServiceImpl {
     	Calendar loTimeNow = new GregorianCalendar();
     	if((loTimeNow.getTimeInMillis() - loUser.getToken_creation().getTimeInMillis())/((60)*1000)>SESSION_TIMEOUT)
     	{
-    		return null;
+    		throw new UnauthorizedException("Token Expired");
     	}
     	else
     	{

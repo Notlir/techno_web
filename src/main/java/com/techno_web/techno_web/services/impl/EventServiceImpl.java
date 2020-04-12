@@ -127,5 +127,44 @@ public class EventServiceImpl {
 		
 	}
 	
+	public List<EventDto> findEventByTag(String token, String tag)
+	{
+		User loUser = moUserService.findUserByEtag(token);
+		
+		ArrayList<EventDto> loEvents = new ArrayList<>();
+		
+		loEvents.addAll(prepareEventDtoForTags(loUser.getSeries_with_write_rights(), true, tag));
+		
+		loEvents.addAll(prepareEventDtoForTags(loUser.getSeries_with_read_rights(), false, tag));
+		
+		return loEvents;
+		
+	}
+	
+	private List<EventDto> prepareEventDtoForTags(List<TimeSeries> poList, boolean isEditable,String tag)
+	{
+		ArrayList<EventDto> loEvents = new ArrayList<>();
+		
+		for(TimeSeries loSeries : poList)
+		{
+			for(Event loEvent : loSeries.getEventList())
+			{
+				if(loEvent.getTag().contains(tag))
+				{
+					EventDto loEventDto = new EventDto();
+					loEventDto.setTime(loEvent.getEvent_date());
+					loEventDto.setValue(loEvent.getValue());
+					loEventDto.setComment(loEvent.getComments());
+					loEventDto.setId(loEvent.getId().toString());
+					loEventDto.setEditable(isEditable);
+					loEventDto.setTags(loEvent.getTag());
+					loEvents.add(loEventDto);
+				}
+			}
+		}
+		
+		return loEvents;
+		
+	}
 
 }

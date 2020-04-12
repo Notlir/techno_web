@@ -22,6 +22,8 @@ public class EventDto {
 	private List<String> tags;
 	
 	private String Comment;
+	
+	private boolean isEditable;
 
 	public Calendar getTime() {
 		return time;
@@ -53,6 +55,14 @@ public class EventDto {
 
 	public void setComment(String comment) {
 		Comment = comment;
+	}
+
+	public boolean isEditable() {
+		return isEditable;
+	}
+
+	public void setEditable(boolean isEditable) {
+		this.isEditable = isEditable;
 	}
 	
 
