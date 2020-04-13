@@ -22,36 +22,38 @@
     </p>
         <table>
               <div class="form-group">
-              <tr> Event(s) : </tr>
-              <button class="btn btn-lg btn-primary btn-block"  data-toggle="modal" data-target="#myModal">Add Event</button>
+              <tr> Event(s) :
+                <button class="btn btn-lg btn-primary btn-block"  data-toggle="modal" data-target="#myModal">Add Event</button>
+              </tr>
               <jsp:include page='newEvent.jsp'>
-                  <jsp:param name="event" value="${event}"/>
+                  <jsp:param name="id" value="${serie.id}"/>
               </jsp:include>
               <td>
               </td>
-                <c:forEach items="${serie.eventList}" var="event"><br />
-                <div class="container">
-                <tr>
-                          time : <fmt:formatDate value="${event.time.time}" type="both" dateStyle="short" /><br />
-                          value : <c:out value="${event.value}" /><br />
-                          comment : <c:out value="${event.comment}" /><br />
-
-                          <c:if test="${not empty event.tags}">
-                           Tags list :
-                          <c:forEach items="${event.tags}" var="tag">
-                          <tr>
-                            <c:out value="${tag}" />
-                          </tr>
-                          </c:forEach>
-                          </c:if>
-                          <br />
-                </tr>
-                </div>
-                </c:forEach>
+                    <c:forEach items="${serie.eventList}" var="event"><br />
+                        <div class="container">
+                        <tr>
+                        value : <c:out value="${event.value}" /><br />
+                        comment : <c:out value="${event.comment}" /><br />
+                        time : <fmt:formatDate value="${event.time.time}" type="both" dateStyle="short" /><br />
+                        <c:if test="${not empty event.tags}">
+                            Tags list :
+                            <c:forEach items="${event.tags}" var="tag">
+                            <tr>
+                                <c:out value="${tag}" />
+                            </tr>
+                            </c:forEach>
+                        </c:if>
+                        <br />
+                        <button type="button" class="btn-warning" onClick="document.location='/getSeries/${serie.id}/updateEvent/${event.id}';">Modify</button>
+                        <button type="button" class="btn-danger">Delete</button>
+                        <br />
+                        </tr>
+                        </div>
+                    </c:forEach>
               </div>
         </table>
         </div>
     </div>
-    <script type="text/javascript">document.getElementById("eventForm").style.display="none";</script>
 </body>
 </html>
