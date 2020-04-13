@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 public class UserWebController {
 
@@ -35,17 +38,15 @@ public class UserWebController {
         } catch (Exception loE) {
             return "redirect:/registration/failed";
         }
-
-        login(loginWrapper);
-        return "redirect:/registration/success";
+        return "redirect:/login";
     }
 
     @PostMapping(
             path = "/login",
             consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    public String login(LoginWrapper loginWrapper) {
-        TokenWrapper loResponse = new TokenWrapper();
-        loResponse.setToken(loUserImpl.doLogin(loginWrapper));
+    public String login(LoginWrapper loginWrapper, HttpServletResponse response) {
+        Cookie cookie = new Cookie("Authorization", loUserImpl.doLogin(loginWrapper));
+        response.addCookie(cookie);
         return "redirect:/getSeriesForMe";
     }
 }

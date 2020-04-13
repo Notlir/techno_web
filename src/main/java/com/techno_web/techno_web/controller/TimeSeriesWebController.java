@@ -1,25 +1,45 @@
 package com.techno_web.techno_web.controller;
 
+import com.techno_web.techno_web.dto.TimeSeriesDetailDto;
+import com.techno_web.techno_web.dto.TimeSeriesDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 import com.techno_web.techno_web.services.impl.TimeSeriesServiceImpl;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.Cookie;
+import java.util.List;
 
 @Controller
 public class TimeSeriesWebController {
 	
 	@Autowired
 	TimeSeriesServiceImpl loServiceImpl;
-	
-	@GetMapping(path="/getSeriesForMe")
-	public String getMySeriesForWeb(Model model,@RequestHeader("Authorization") String token)
+
+	@Autowired
+	TimeSeriesServiceImpl moSeriesService;
+
+	@GetMapping(
+			path = "/getSeriesForMe",
+			produces = {MediaType.TEXT_HTML_VALUE})
+	public String getMySeriesForWeb(Model model, @CookieValue("Authorization") String token)
 	{
-		model.addAttribute("time_series", loServiceImpl.findSeriesForMe(token));
-		
+		List<TimeSeriesDto> list = moSeriesService.findSeriesForMe(token);
+		model.addAttribute("list", list);
 		return "mySeries";
+	}
+
+	@GetMapping(path="/getSeries/{id}",
+			produces = {MediaType.TEXT_HTML_VALUE})
+	public String getSeries(Model model, @CookieValue("Authorization") String token, @PathVariable("id") String id)
+	{
+		TimeSeriesDetailDto serie = moSeriesService.getTimeSeriesDetail(id, token);
+		model.addAttribute("serie", serie);
+		return "detailsSeries";
 	}
 
 }
