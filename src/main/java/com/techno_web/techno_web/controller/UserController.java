@@ -30,10 +30,6 @@ import com.techno_web.techno_web.wrapper.TokenWrapper;
 @RestController
 public class UserController {
 	
-	private static final String LOGIN_KEY="login";
-	
-	private static final String PASSSWORD_KEY="password";
-	
 	
 	@Autowired
 	UserServiceImpl moUserService;

@@ -63,12 +63,25 @@ public class EventController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping(path="events/findByTag")
+	@GetMapping(path="events/findByTag",
+			produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
 	public @ResponseBody List<EventDto> findEventByTag(@RequestHeader("Authorization") String token,@RequestParam("tag")String tag)
 	{
 		return moEventService.findEventByTag(token, tag);
 		
 	}
 	
+	@GetMapping (path = "events/tagFrequencies",
+			produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+	public @ResponseBody Integer findEventByTagsAndDate(@RequestHeader("Authorization") String token,@RequestParam("tag")String tag,@RequestParam("dateFrom")String dateFrom,@RequestParam("dateTo")String dateTo)
+	{
+		return moEventService.findTagFrequency(token, tag, dateFrom, dateTo);
+	}
+	
+	@GetMapping(path = "events/timeSinceLastTag")
+	public @ResponseBody Long findTimeSinceLastTag(@RequestHeader("Authorization") String token,@RequestParam("tag")String tag)
+	{
+		return moEventService.findTimeSinceLastTag(token, tag);
+	}
 
 }

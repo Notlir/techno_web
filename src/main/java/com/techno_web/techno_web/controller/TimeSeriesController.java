@@ -1,17 +1,13 @@
 package com.techno_web.techno_web.controller;
 
-import java.rmi.ServerError;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.transaction.Transactional;
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,8 +23,6 @@ import com.techno_web.techno_web.dto.TimeSeriesDetailDto;
 import com.techno_web.techno_web.dto.TimeSeriesDto;
 import com.techno_web.techno_web.entities.TimeSeries;
 import com.techno_web.techno_web.entities.User;
-import com.techno_web.techno_web.entities.UserRight;
-import com.techno_web.techno_web.exceptions.UnauthorizedException;
 import com.techno_web.techno_web.services.impl.EventServiceImpl;
 import com.techno_web.techno_web.services.impl.TimeSeriesServiceImpl;
 import com.techno_web.techno_web.services.impl.UserServiceImpl;

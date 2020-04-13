@@ -48,7 +48,7 @@ public class TimeSeriesServiceImpl {
     public TimeSeries findById(String id)
     {
     	Optional<TimeSeries> loSeries = moRepository.findById(UUID.fromString(id));
-    	if(loSeries==null)
+    	if(!loSeries.isPresent())
     	{
     		throw new NotFoundException("time series does not exists");
     	}
@@ -68,14 +68,9 @@ public class TimeSeriesServiceImpl {
 		}
 		
 		List<TimeSeriesDto> loResponse= new ArrayList<TimeSeriesDto>();
-		try {
+		
 		
 		loResponse = prepareListFromUser(loUser);
-		}catch(Exception loE)
-		{
-			System.out.println("Erreur ! "+loE.getMessage());
-		}
-		
 		
 		return loResponse;
     	

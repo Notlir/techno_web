@@ -1,7 +1,12 @@
 package com.techno_web.techno_web.services.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +16,7 @@ import com.techno_web.techno_web.dto.EventDto;
 import com.techno_web.techno_web.entities.Event;
 import com.techno_web.techno_web.entities.TimeSeries;
 import com.techno_web.techno_web.entities.User;
+import com.techno_web.techno_web.exceptions.NotFoundException;
 import com.techno_web.techno_web.exceptions.UnauthorizedException;
 import com.techno_web.techno_web.exceptions.UnprocessableException;
 import com.techno_web.techno_web.repositories.EventRepositories;
@@ -36,7 +42,15 @@ public class EventServiceImpl {
 	
 	public Event findById(String Id)
 	{
-		return this.moRepository.findById(UUID.fromString(Id)).get();
+		Optional<Event> loEvent =  this.moRepository.findById(UUID.fromString(Id));
+		if(!loEvent.isPresent())
+		{
+			throw new NotFoundException("This event does not exists");
+		}
+		else
+		{
+			return loEvent.get();
+		}
 	}
 	
 	public List<Event> getAllevents()
@@ -120,7 +134,7 @@ public class EventServiceImpl {
 		
 		poTimeSeries.setEventList(null);
 		
-		//necessary to save to delete all events constraints in db;
+		//necessary to save to delete all events constraints in db
 		moTimeSeriesService.save(poTimeSeries);
 		
 		moRepository.deleteAll(loEvents);
@@ -164,6 +178,62 @@ public class EventServiceImpl {
 		}
 		
 		return loEvents;
+		
+	}
+	
+	public Integer findTagFrequency(String token, String tag, String dateFrom, String dateTo)
+	{
+		SimpleDateFormat loFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		
+		Calendar loDateFrom = new GregorianCalendar();
+		Calendar loDateTo = new GregorianCalendar();
+		
+		Integer lnFrequency=0;
+		
+		try {
+		loDateFrom.setTime(loFormatter.parse(dateFrom));
+		loDateTo.setTime(loFormatter.parse(dateTo));
+		}catch(ParseException loE)
+		{
+			throw new UnprocessableException("dates are not in correct format");
+		}
+		
+		List<EventDto> loEvents = findEventByTag(token, tag);
+		
+		for(EventDto loEvent : loEvents)
+		{
+			if(loDateFrom.before(loEvent.getTime()) && loDateTo.after(loEvent.getTime()))
+			{
+				lnFrequency++;
+			}
+		}
+		
+		return lnFrequency;
+	}
+	
+	
+	public Long findTimeSinceLastTag(String token, String tag)
+	{
+		List<EventDto> loEvents = findEventByTag(token, tag);
+		
+		if(loEvents == null || loEvents.isEmpty())
+		{
+			return 0l;
+		}
+		
+		EventDto mostRecentEvent = loEvents.get(0);
+		
+		for(EventDto loEvent : loEvents)
+		{
+			if(loEvent.getTime().after(mostRecentEvent))
+			{
+				mostRecentEvent = loEvent;
+			}
+		}
+		
+		GregorianCalendar loNow = new GregorianCalendar();
+		
+		return loNow.getTimeInMillis()-mostRecentEvent.getTime().getTimeInMillis();
 		
 	}
 
