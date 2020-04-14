@@ -6,7 +6,7 @@
                 <h2 class="form-heading">Add Event</h2>
             </div>
             <div class="modal-body">
-                <form action="/getSeries/${event.id}/newEvent" method="post" class="form-signin" id="eventForm">
+                <form action="/getSeries/${id}/newEvent" method="post" class="form-signin" id="eventForm">
                     <div class="form-group">
                         <label for="value">Enter your value: </label>
                         <input type="text" class="form-control" name="value" id="value" required>
@@ -16,7 +16,13 @@
                         <input type="text" class="form-control" name="comment" id="comment">
                     </div>
                     <div class="form-group">
-                        <input type="button" class="form-control" id="addTag" value="Add Tag"/>
+                        <label for="time">Choose your date: </label>
+                        <input name="time" class="form-control" id="time" type="datetime-local" step="1"/>
+                    </div>
+                    <input class="btn btn-lg btn-primary btn-block" type="button" value="Add tag" id="addTag" />
+                    <div class="form-group"  id="TagArea" style="display:none">
+                        <br /><label for="tags">Enter tags : </label>
+                        <textarea class="form-control"  id="tags" name="tags"></textarea>
                     </div>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
                 </form>
@@ -24,8 +30,11 @@
         </div>
     </div>
 </div>
-<script>
-    $('#addtag').click(function(){
-        document.write("<jsp:include page='newTag.jsp'/>");
-    }
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#addTag').click(function(){
+        $('#TagArea').show();
+    });
+});
 </script>
+

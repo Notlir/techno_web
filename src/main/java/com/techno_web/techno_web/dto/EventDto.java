@@ -1,5 +1,7 @@
 package com.techno_web.techno_web.dto;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class EventDto {
 		this.id = id;
 	}
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private Calendar time;
 	
 	private Float value;

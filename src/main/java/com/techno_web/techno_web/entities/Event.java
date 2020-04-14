@@ -26,7 +26,7 @@ public class Event {
 	@Column
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id ;
-	
+
 	@NotNull
 	@Column
 	private Calendar event_date;
