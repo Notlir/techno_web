@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -65,23 +67,26 @@ public class EventController {
 	
 	@GetMapping(path="events/findByTag",
 			produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
-	public @ResponseBody List<EventDto> findEventByTag(@RequestHeader("Authorization") String token,@RequestParam("tag")String tag)
+	public ResponseEntity<List<EventDto>> findEventByTag(@RequestHeader("Authorization") String token,@RequestParam("tag")String tag)
 	{
-		return moEventService.findEventByTag(token, tag);
+		CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.SECONDS);
+		return ResponseEntity.ok().cacheControl(cacheControl).body(moEventService.findEventByTag(token, tag));
 		
 	}
 	
 	@GetMapping (path = "events/tagFrequencies",
 			produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
-	public @ResponseBody Integer findEventByTagsAndDate(@RequestHeader("Authorization") String token,@RequestParam("tag")String tag,@RequestParam("dateFrom")String dateFrom,@RequestParam("dateTo")String dateTo)
+	public ResponseEntity<Integer> findEventByTagsAndDate(@RequestHeader("Authorization") String token,@RequestParam("tag")String tag,@RequestParam("dateFrom")String dateFrom,@RequestParam("dateTo")String dateTo)
 	{
-		return moEventService.findTagFrequency(token, tag, dateFrom, dateTo);
+		CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.SECONDS);
+		return ResponseEntity.ok().cacheControl(cacheControl).body(moEventService.findTagFrequency(token, tag, dateFrom, dateTo));
 	}
 	
 	@GetMapping(path = "events/timeSinceLastTag")
-	public @ResponseBody Long findTimeSinceLastTag(@RequestHeader("Authorization") String token,@RequestParam("tag")String tag)
+	public ResponseEntity<Long> findTimeSinceLastTag(@RequestHeader("Authorization") String token,@RequestParam("tag")String tag)
 	{
-		return moEventService.findTimeSinceLastTag(token, tag);
+		CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.SECONDS);
+		return ResponseEntity.ok().cacheControl(cacheControl).body(moEventService.findTimeSinceLastTag(token, tag));
 	}
 
 }

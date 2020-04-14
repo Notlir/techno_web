@@ -3,9 +3,10 @@ package com.techno_web.techno_web.controller;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
-
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -71,16 +72,18 @@ public class TimeSeriesController {
 	
 	@GetMapping(path="/getSeriesForMe",
 			produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
-	public @ResponseBody List<TimeSeriesDto> getMySeries(@RequestHeader("Authorization") String token)
+	public ResponseEntity<List<TimeSeriesDto>> getMySeries(@RequestHeader("Authorization") String token)
 	{
-		return moSeriesService.findSeriesForMe(token);
+		CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.SECONDS);
+		return ResponseEntity.ok().cacheControl(cacheControl).body(moSeriesService.findSeriesForMe(token));
 	}
 	
 	@GetMapping(path="/getSeries/{id}",
 			produces= {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE,MediaType.TEXT_PLAIN_VALUE})
-	public @ResponseBody TimeSeriesDetailDto getSeries(@RequestHeader("Authorization") String token, @PathVariable("id") String id)
+	public ResponseEntity<TimeSeriesDetailDto> getSeries(@RequestHeader("Authorization") String token, @PathVariable("id") String id)
 	{
-		return moSeriesService.getTimeSeriesDetail(id, token);
+		CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.SECONDS);
+		return ResponseEntity.ok().cacheControl(cacheControl).body(moSeriesService.getTimeSeriesDetail(id, token));
 	}
 	
 	

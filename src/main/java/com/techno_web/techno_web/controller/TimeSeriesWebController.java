@@ -35,7 +35,7 @@ public class TimeSeriesWebController {
 	{
 		List<TimeSeriesDto> list = moSeriesService.findSeriesForMe(token);
 		model.addAttribute("list", list);
-		poResponse.addHeader("Cache-Control", "max-age=60");
+		poResponse.addHeader("Cache-Control", "max-age=30");
 		return "mySeries";
 	}
 
@@ -45,7 +45,7 @@ public class TimeSeriesWebController {
 	{
 		TimeSeriesDetailDto serie = moSeriesService.getTimeSeriesDetail(id, token);
 		model.addAttribute("serie", serie);
-		poResponse.addHeader("Cache-Control", "max-age=60");
+		poResponse.addHeader("Cache-Control", "max-age=30");
 		return "detailsSeries";
 	}
 
