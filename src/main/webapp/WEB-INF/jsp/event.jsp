@@ -26,9 +26,8 @@
                         <c:set var="date" value="${event.event_date}" scope="page" />
                         <div class="form-group">
                             <label for="time">Choose your date: </label>
-                            <input name="time" class="form-control" id="time" type="text" step="1" value="<fmt:formatDate value='${date.time}' type='both' dateStyle='short' />" />
+                            <input name="time" class="form-control" id="time" type="datetime-local" step="1" value="<fmt:formatDate value='${date.time}' pattern='yyyy-MM-dd\'T\'hh:mm:s' type='both' dateStyle='short' />" />
                         </div>
-                            <input class="btn btn-lg btn-primary btn-block" type="button" value="Add tag" id="addTag" />
                         <div class="form-group"  id="TagArea">
                         <br /><label for="tags">Enter tags : </label>
                         <textarea class="form-control"  id="tags" name="tags" varStatus="status">
