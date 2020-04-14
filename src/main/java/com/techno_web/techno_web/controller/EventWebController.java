@@ -46,4 +46,14 @@ public class EventWebController {
 
         return "redirect:/getSeries/"+idSeries;
     }
+
+    @DeleteMapping(path="/getSeries/{id_series}/deleteEvent/{id_event}",
+            consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE},
+            produces = {MediaType.TEXT_HTML_VALUE})
+    public @ResponseBody String deleteEvent(@CookieValue("Authorization") String token, @PathVariable("id_series") String idSeries, @PathVariable("id_event")String id_event )
+    {
+        moEventService.deleteEvent(token, idSeries, id_event);
+
+        return "redirect:/getSeries/"+idSeries;
+    }
 }

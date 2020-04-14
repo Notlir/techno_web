@@ -11,9 +11,8 @@
     <style><%@include file="/WEB-INF/jsp/resources/css/bootstrap.min.css"%></style>
     <style><%@include file="/WEB-INF/jsp/resources/css/common.css"%></style>
             <div class="container">
-                <h2 class="form-heading">Modify Event</h2>
-
                     <div class="form-group">
+                      <h2 class="form-heading">Modify Event</h2>
                     <form action="/getSeries/${serie_id}/updateEvent/${event.id}" method="post" class="form-signin" id="eventForm">
                         <div class="form-group">
                             <label for="value">Enter your value: </label>

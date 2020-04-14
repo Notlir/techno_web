@@ -46,7 +46,7 @@
                         </c:if>
                         <br />
                         <button type="button" class="btn-warning" onClick="document.location='/getSeries/${serie.id}/updateEvent/${event.id}';">Modify</button>
-                        <button type="button" class="btn-danger">Delete</button>
+                        <button type="button" class="btn-danger" onClick="deleteEvent('${event.id}');">Delete</button>
                         <br />
                         </tr>
                         </div>
@@ -55,5 +55,21 @@
         </table>
         </div>
     </div>
+    <script type = "text/javascript">
+    function deleteEvent(eventId){
+                $.ajax({
+                    url: '/getSeries/${serie.id}/deleteEvent/'+eventId,
+                    method: 'DELETE',
+                    contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+                    success: function () {
+                        alert('record has been deleted');
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('/getSeries/${serie.id}/deleteEvent/'+eventId);
+                    }
+                })
+            }
+            </script>
 </body>
 </html>
