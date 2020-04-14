@@ -11,12 +11,16 @@ import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techno_web.techno_web.dto.EventDto;
@@ -48,6 +52,36 @@ public class EventController {
 		moEventService.updateEvent(token, idSeries, id_event, event);
 		
 		return ResponseEntity.ok().build();
+	}
+	
+	
+	@DeleteMapping(path="/series/{id_series}/deleteEvent/{id_event}")
+	public ResponseEntity<String> deleteEvent(@RequestHeader("Authorization") String token,@PathVariable("id_series") String id_series, @PathVariable("id_event")String id_event)
+	{
+		moEventService.deleteEvent(token, id_series, id_event);
+		
+		return ResponseEntity.ok().build();
+	}
+	
+	@GetMapping(path="events/findByTag",
+			produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+	public @ResponseBody List<EventDto> findEventByTag(@RequestHeader("Authorization") String token,@RequestParam("tag")String tag)
+	{
+		return moEventService.findEventByTag(token, tag);
+		
+	}
+	
+	@GetMapping (path = "events/tagFrequencies",
+			produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+	public @ResponseBody Integer findEventByTagsAndDate(@RequestHeader("Authorization") String token,@RequestParam("tag")String tag,@RequestParam("dateFrom")String dateFrom,@RequestParam("dateTo")String dateTo)
+	{
+		return moEventService.findTagFrequency(token, tag, dateFrom, dateTo);
+	}
+	
+	@GetMapping(path = "events/timeSinceLastTag")
+	public @ResponseBody Long findTimeSinceLastTag(@RequestHeader("Authorization") String token,@RequestParam("tag")String tag)
+	{
+		return moEventService.findTimeSinceLastTag(token, tag);
 	}
 
 }

@@ -153,7 +153,7 @@ public class User {
 		}
 		else
 		{
-			if(!series_with_read_rights.contains(poSeries) && !series_with_read_rights.contains(poSeries))
+			if(!series_with_read_rights.contains(poSeries) && !series_with_write_rights.contains(poSeries))
 			{
 				
 				series_with_read_rights.add(poSeries);
@@ -163,6 +163,18 @@ public class User {
 		}
 		
 		
+	}
+	
+	public void removeTimeSeries(TimeSeries poTimeSeries)
+	{
+		if(series_with_write_rights.contains(poTimeSeries))
+		{
+			series_with_write_rights.remove(poTimeSeries);
+		}
+		else if(series_with_read_rights.contains(poTimeSeries))
+		{
+			series_with_read_rights.remove(poTimeSeries);
+		}
 	}
 	
 }

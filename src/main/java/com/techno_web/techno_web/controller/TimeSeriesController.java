@@ -1,16 +1,14 @@
 package com.techno_web.techno_web.controller;
 
-import java.rmi.ServerError;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +23,6 @@ import com.techno_web.techno_web.dto.TimeSeriesDetailDto;
 import com.techno_web.techno_web.dto.TimeSeriesDto;
 import com.techno_web.techno_web.entities.TimeSeries;
 import com.techno_web.techno_web.entities.User;
-import com.techno_web.techno_web.entities.UserRight;
-import com.techno_web.techno_web.exceptions.UnauthorizedException;
 import com.techno_web.techno_web.services.impl.EventServiceImpl;
 import com.techno_web.techno_web.services.impl.TimeSeriesServiceImpl;
 import com.techno_web.techno_web.services.impl.UserServiceImpl;
@@ -101,6 +97,15 @@ public class TimeSeriesController {
 	public ResponseEntity<String> giveAccessRightToUser(@RequestHeader("Authorization") String token, @PathVariable("id") String id,@RequestParam("to") String givenUSerId,@RequestParam("writeRight") boolean writeRight)
 	{
 		moSeriesService.giveRightToUser(token, id, givenUSerId, writeRight);
+		
+		return ResponseEntity.ok().build();
+	}
+	
+	
+	@DeleteMapping(path="/series/{id}/deleteSeries")
+	public ResponseEntity<String> deleteSeries(@RequestHeader("Authorization") String token,@PathVariable("id") String id)
+	{
+		moSeriesService.deleteSeries(token, id);
 		
 		return ResponseEntity.ok().build();
 	}

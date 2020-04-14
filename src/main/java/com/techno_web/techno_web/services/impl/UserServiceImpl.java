@@ -1,7 +1,9 @@
 package com.techno_web.techno_web.services.impl;
 
+import com.techno_web.techno_web.entities.TimeSeries;
 import com.techno_web.techno_web.entities.User;
 import com.techno_web.techno_web.exceptions.ConflictException;
+import com.techno_web.techno_web.exceptions.NotFoundException;
 import com.techno_web.techno_web.exceptions.UnauthorizedException;
 import com.techno_web.techno_web.repositories.UserRepositories;
 import com.techno_web.techno_web.wrapper.LoginWrapper;
@@ -9,7 +11,10 @@ import com.techno_web.techno_web.wrapper.TokenWrapper;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -36,7 +41,13 @@ public class UserServiceImpl {
     
     public User findById(String psId)
     {
-    	return moRepository.findById(UUID.fromString(psId)).get();
+    	Optional<User> loUser =  moRepository.findById(UUID.fromString(psId));
+    	if(!loUser.isPresent())
+    	{
+    		throw new NotFoundException("User not found");
+    	}
+    	
+    	return loUser.get();
     }
     
     public User findUserByLoginAndPassword(String psLogin,String psPassword)
@@ -54,7 +65,7 @@ public class UserServiceImpl {
     	Calendar loTimeNow = new GregorianCalendar();
     	if((loTimeNow.getTimeInMillis() - loUser.getToken_creation().getTimeInMillis())/((60)*1000)>SESSION_TIMEOUT)
     	{
-    		return null;
+    		throw new UnauthorizedException("Token Expired");
     	}
     	else
     	{
@@ -71,7 +82,6 @@ public class UserServiceImpl {
 			
 		}catch(Exception loE)
 		{
-			System.out.println(loE);
 			throw new ServerErrorException("Erreur lors de l'identification", loE);
 			
 		}
@@ -94,7 +104,6 @@ public class UserServiceImpl {
 			
 		}catch(Exception loE)
 		{
-			System.out.println(loE);
 			throw new ServerErrorException("Erreur lors de l'identification", loE);
 		}
 		
@@ -134,6 +143,19 @@ public class UserServiceImpl {
     	save(loUser);
     	
 
+    }
+    
+    public List<User> findByTimeSeries(TimeSeries poTimeSeries)
+    {
+    	List<User> loUsers= moRepository.findUsersBySeriesWithWrite(poTimeSeries);
+    	loUsers.addAll(moRepository.findUsersBySeriesWithRead(poTimeSeries));
+    	
+    	return loUsers;
+    }
+    
+    public void saveAll(List<User> poUsers)
+    {
+    	moRepository.saveAll(poUsers);
     }
     
 }
