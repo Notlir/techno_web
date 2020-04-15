@@ -7,69 +7,79 @@
       <meta charset="utf-8">
       <title>My TimesSeries</title>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   </head>
 	<body>
 	<style><%@include file="/WEB-INF/jsp/resources/css/bootstrap.min.css"%></style>
     <style><%@include file="/WEB-INF/jsp/resources/css/common.css"%></style>
     <div class="form-group">
-    <div class="form-signin">
-    <h2 class="form-heading"><c:out value="${serie.title}" /></h2>
-    <p>
-      <c:if test="${not empty serie.description}">
-        <c:out value="${serie.description}" />
-      </c:if>
-    </p>
-        <table>
-              <div class="form-group">
-              <tr> Event(s) :
-                <button class="btn btn-lg btn-primary btn-block"  data-toggle="modal" data-target="#myModal">Add Event</button>
+        <div class="form-signin">
+            <h2 class="form-heading"><c:out value="${serie.title}" /></h2>
+            <p>
+                <c:if test="${not empty serie.description}">
+                    <c:out value="${serie.description}" />
+                </c:if>
+            </p>
+            <h3 class="form-heading">Event(s)</h3>
+            <table class="table">
+              <tr>
+                <th>Value</th>
+                <th>Comment</th>
+                <th>Time</th>
+                <th>Tags</th>
+                <th>
+                    <button class="btn btn-default btn-sm btn-primary"  data-toggle="modal" data-target="#myModal">Add Event</button>
+                    <jsp:include page='newEvent.jsp'>
+                                      <jsp:param name="id" value="${serie.id}"/>
+                    </jsp:include>
+                </th>
               </tr>
-              <jsp:include page='newEvent.jsp'>
-                  <jsp:param name="id" value="${serie.id}"/>
-              </jsp:include>
-              <td>
-              </td>
-                    <c:forEach items="${serie.eventList}" var="event"><br />
-                        <div class="container">
+                <c:forEach items="${serie.eventList}" var="event">
                         <tr>
-                        value : <c:out value="${event.value}" /><br />
-                        comment : <c:out value="${event.comment}" /><br />
-                        time : <fmt:formatDate value="${event.time.time}" type="both" dateStyle="short" /><br />
-                        <c:if test="${not empty event.tags}">
-                            Tags list :
-                            <c:forEach items="${event.tags}" var="tag">
-                            <tr>
-                                <c:out value="${tag}" />
-                            </tr>
-                            </c:forEach>
-                        </c:if>
-                        <br />
-                        <button type="button" class="btn-warning" onClick="document.location='/getSeries/${serie.id}/updateEvent/${event.id}';">Modify</button>
-                        <button type="button" class="btn-danger" onClick="deleteEvent('${event.id}');">Delete</button>
-                        <br />
+                           <td><c:out value="${event.value}" /></td>
+                           <td><c:out value="${event.comment}" /></td>
+                           <td> <fmt:formatDate value="${event.time.time}" type="both" dateStyle="short" /></td>
+                           <td>
+                               <c:if test="${not empty event.tags}">
+                                    <c:forEach items="${event.tags}" var="tag">
+                                        <c:out value="${tag}" />
+                                    </c:forEach>
+                                </c:if>
+                           </td>
+                            <td>
+                            <table class="table">
+                                <td>
+                                    <button type="button" class="btn btn-default btn-sm btn-primary" onClick="document.location='/getSeries/${serie.id}/updateEvent/${event.id}';">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default btn-sm btn-danger" onClick="deleteEvent('${event.id}');">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </td>
+                            </table>
+                            </td>
                         </tr>
-                        </div>
-                    </c:forEach>
-              </div>
-        </table>
+                </c:forEach>
+            </table>
         </div>
     </div>
     <script type = "text/javascript">
-    function deleteEvent(eventId){
-                $.ajax({
-                    url: '/getSeries/${serie.id}/deleteEvent/'+eventId,
-                    method: 'DELETE',
-                    contentType:'application/x-www-form-urlencoded; charset=UTF-8',
-                    success: function () {
-                        alert('record has been deleted');
-                        location.reload();
-                    },
-                    error: function () {
-                        alert('/getSeries/${serie.id}/deleteEvent/'+eventId);
-                    }
-                })
-            }
-            </script>
-</body>
+        function deleteEvent(eventId){
+            $.ajax({
+                url: '/getSeries/${serie.id}/deleteEvent/'+eventId,
+                method: 'DELETE',
+                contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+                success: function () {
+                    alert('record has been deleted');
+                    location.reload();
+                },
+                error: function () {
+                    alert('/getSeries/${serie.id}/deleteEvent/'+eventId);
+                }
+            })
+        }
+    </script>
+    </body>
 </html>

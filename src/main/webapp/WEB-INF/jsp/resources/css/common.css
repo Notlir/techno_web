@@ -1,3 +1,5 @@
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
+
 body {
     padding-top: 40px;
     padding-bottom: 40px;
@@ -46,3 +48,17 @@ body {
 .has-error {
     color: red
 }
+
+.table {
+    background-color: #eee; !important
+    vertical-align: middle; !important
+}
+
+td {
+    background-color: #eee;
+}
+
+.actionTab {
+        border: none !important
+    }
+
