@@ -49,9 +49,49 @@
                             <td>
                             <table class="table">
                                 <td>
-                                    <button type="button" class="btn btn-default btn-sm btn-primary" onClick="document.location='/getSeries/${serie.id}/updateEvent/${event.id}';">
+                                    <button type="button" class="btn btn-default btn-sm btn-primary" data-toggle="modal" data-target="#myUpdateModal-${event.id}">
                                         <span class="glyphicon glyphicon-edit"></span>
                                     </button>
+                                    <div class="modal fade" id="myUpdateModal-${event.id}" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h2 class="form-heading">Modify Event</h2>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="/getSeries/${serie.id}/updateEvent/${event.id}" method="post" class="form-signin" id="eventForm">
+                                                        <div class="form-group">
+                                                            <label for="value">Enter your value: </label>
+                                                            <input type="text" class="form-control" name="value" id="value" value="<c:out value='${event.value}'/>" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="comment">Enter your comment: </label>
+                                                            <input type="text" class="form-control" name="comment" id="comment" value="<c:out value='${event.comment}'/>">
+                                                        </div>
+                                                        <c:set var="date" value="${event.time}" scope="page" />
+                                                        <div class="form-group">
+                                                            <label for="time">Choose your date: </label>
+                                                            <input name="time" class="form-control" id="time" type="datetime-local" step="1" value="<fmt:formatDate value='${date.time}' pattern='yyyy-MM-dd\'T\'hh:mm:s' type='both' dateStyle='short' />" />
+                                                        </div>
+                                                        <div class="form-group"  id="TagArea">
+                                                        <label for="tags">Enter tags : </label>
+                                                        <c:set var="xv"></c:set>
+                                                        <c:forEach items="${event.tags}" var="x" varStatus="status">
+                                                            <c:if test="${not empty x}">
+                                                            <c:choose>
+                                                                <c:when test="${status.first}"><c:set var="xv" value="${x}"></c:set></c:when>
+                                                                <c:otherwise><c:set var="xv" value="${xv}, ${x}"></c:set></c:otherwise>
+                                                            </c:choose>
+                                                            </c:if>
+                                                        </c:forEach><textarea cols="45" rows="5" id="tags" name="tags">${xv}</textarea>
+                                                        </div>
+                                                        <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-default btn-sm btn-danger" onClick="deleteEvent('${event.id}');">

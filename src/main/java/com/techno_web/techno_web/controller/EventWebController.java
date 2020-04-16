@@ -25,17 +25,6 @@ public class EventWebController {
         return "redirect:/getSeries/"+id;
     }
 
-    @GetMapping(
-            path="/getSeries/{id_series}/updateEvent/{id_event}")
-    public String getEvent(Model model, @CookieValue("Authorization") String token, @PathVariable("id_series") String idSeries, @PathVariable("id_event")String id_event )
-    {
-        Event myEvent = moEventService.findById(id_event);
-        model.addAttribute("event", myEvent);
-        model.addAttribute("serie_id", idSeries);
-
-        return "event";
-    }
-
     @PostMapping(
             path="/getSeries/{id_series}/updateEvent/{id_event}",
             consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE},
