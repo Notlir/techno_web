@@ -62,14 +62,19 @@
                                     </button>
                                 </td>
                                 <td class="actionTab">
-                                    <button type="button" class="btn btn-default btn-sm btn-info" onClick="document.location='/giveRightToUsers/{element.id}';">
+                                    <button type="button" class="btn btn-default btn-sm btn-primary" onClick="document.location='/giveRightToUsers/{element.id}';">
                                         <span class="glyphicon glyphicon-share"></span>
+                                    </button>
+                                </td>
+                                <td rowspan="2" class="actionTab">
+                                    <button type="button" class="btn btn-default btn-sm btn-info" onClick="document.location='/getSeries/${element.id}/canvas';">
+                                        <span class="glyphicon glyphicon-info-sign"></span>
                                     </button>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="actionTab">
-                                    <button type="button" class="btn btn-default btn-sm btn-primary" data-toggle="modal" data-target="#modal-${element.id}">
+                                    <button type="button" class="btn btn-default btn-sm btn-warning" data-toggle="modal" data-target="#modal-${element.id}">
                                         <span class="glyphicon glyphicon-edit"></span>
                                     </button>
                                 </td class="actionTab">

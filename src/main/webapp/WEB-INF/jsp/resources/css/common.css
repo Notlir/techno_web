@@ -56,9 +56,15 @@ body {
 
 td {
     background-color: #eee;
+    vertical-align: middle !important;
 }
 
 .actionTab {
-        border: none !important
+        border: none !important;
+        vertical-align: middle !important;
     }
+
+.vertical-center {
+    vertical-align: middle !important;
+}
 

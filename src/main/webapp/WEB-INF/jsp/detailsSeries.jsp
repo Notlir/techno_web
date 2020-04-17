@@ -33,6 +33,11 @@
                                       <jsp:param name="id" value="${serie.id}"/>
                     </jsp:include>
                 </th>
+                <th>
+                    <button type="button" class="btn btn-default btn-sm btn-info" onClick="document.location='/getSeries/${serie.id}/canvas';">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                    </button>
+                </th>
               </tr>
                 <c:forEach items="${serie.eventList}" var="event">
                         <tr>
@@ -49,7 +54,7 @@
                             <td>
                             <table class="table">
                                 <td>
-                                    <button type="button" class="btn btn-default btn-sm btn-primary" data-toggle="modal" data-target="#myUpdateModal-${event.id}">
+                                    <button type="button" class="btn btn-default btn-sm btn-warning" data-toggle="modal" data-target="#myUpdateModal-${event.id}">
                                         <span class="glyphicon glyphicon-edit"></span>
                                     </button>
                                     <div class="modal fade" id="myUpdateModal-${event.id}" role="dialog">

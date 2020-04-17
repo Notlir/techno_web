@@ -1,5 +1,6 @@
 package com.techno_web.techno_web.controller;
 
+import com.techno_web.techno_web.dto.EventDto;
 import com.techno_web.techno_web.dto.TimeSeriesDetailDto;
 import com.techno_web.techno_web.dto.TimeSeriesDto;
 import com.techno_web.techno_web.entities.TimeSeries;
@@ -19,7 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -55,6 +59,27 @@ public class TimeSeriesWebController {
 		model.addAttribute("serie", serie);
 		poResponse.addHeader("Cache-Control", "max-age=30");
 		return "detailsSeries";
+	}
+
+	@GetMapping(
+			path="/getSeries/{id_series}/canvas",
+			produces = {MediaType.TEXT_HTML_VALUE})
+	public String getEventCanvas(Model model, @CookieValue("Authorization") String token, @PathVariable("id_series") String idSeries)
+	{
+		TimeSeriesDetailDto details = loServiceImpl.getTimeSeriesDetail(idSeries, token);
+		List<EventDto> lists = details.getEventList();
+		List<String> labels = new ArrayList<String>(lists.size());
+		List<Float> datas = new ArrayList<Float>(lists.size());
+		SimpleDateFormat dfDate = new SimpleDateFormat("dd/MM/yyyy");
+		for( int i =0; i<lists.size(); i++){
+			java.util.Date dateDate = lists.get(i).getTime().getTime();
+			labels.add("\""+dfDate.format(dateDate)+"\"");
+			datas.add(lists.get(i).getValue());
+		}
+		model.addAttribute("serie", details);
+		model.addAttribute("labels", labels);
+		model.addAttribute("datas", datas);
+		return "canvas";
 	}
 
 	@PostMapping(
