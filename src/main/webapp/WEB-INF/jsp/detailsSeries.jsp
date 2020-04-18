@@ -68,7 +68,7 @@
                                                     <form action="/getSeries/${serie.id}/updateEvent/${event.id}" method="post" class="form-signin" id="eventForm">
                                                         <div class="form-group">
                                                             <label for="value">Enter your value: </label>
-                                                            <input type="text" class="form-control" name="value" id="value" value="<c:out value='${event.value}'/>" required>
+                                                            <input type="number" class="form-control" name="value" id="value" value="<c:out value='${event.value}'/>" required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="comment">Enter your comment: </label>
