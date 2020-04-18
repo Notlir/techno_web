@@ -79,7 +79,7 @@ public class TimeSeriesController {
 	}
 	
 	@GetMapping(path="/getSeries/{id}",
-			produces= {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE,MediaType.TEXT_PLAIN_VALUE})
+			produces= {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<TimeSeriesDetailDto> getSeries(@RequestHeader("Authorization") String token, @PathVariable("id") String id)
 	{
 		CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.SECONDS);

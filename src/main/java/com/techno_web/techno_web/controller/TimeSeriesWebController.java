@@ -124,13 +124,13 @@ public class TimeSeriesWebController {
 		return "redirect:/getSeriesForMe";
 	}
 
-	@PostMapping(path="/getSeriesForMe/{id}/updateSeries",
+	@PutMapping(path="/getSeriesForMe/{id}/updateSeries",
 			consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE},
 			produces = {MediaType.TEXT_HTML_VALUE})
-	public String updateTimeSeries(Model model, @CookieValue("Authorization") String token, @PathVariable("id") String idSeries, TimeSeriesDto poUpdatedTimeSeries)
+	public ResponseEntity<String> updateTimeSeries(@CookieValue("Authorization") String token, @PathVariable("id") String idSeries, TimeSeriesDto poUpdatedTimeSeries)
 	{
 		moSeriesService.updateTimeSeries(token, idSeries, poUpdatedTimeSeries);
 
-		return "redirect:/getSeries/"+idSeries;
+		return ResponseEntity.ok().build();
 	}
 }

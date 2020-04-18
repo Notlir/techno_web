@@ -9,6 +9,11 @@ import com.techno_web.techno_web.repositories.UserRepositories;
 import com.techno_web.techno_web.wrapper.LoginWrapper;
 import com.techno_web.techno_web.wrapper.TokenWrapper;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -16,6 +21,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+
+import org.apache.tomcat.util.codec.binary.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -78,7 +87,7 @@ public class UserServiceImpl {
     	User loUser=null;
 		try {
 			
-			loUser = findUserByLoginAndPassword(poLogin.getLogin(), poLogin.getPassword());
+			loUser = findByLogin(poLogin.getLogin());
 			
 		}catch(Exception loE)
 		{
@@ -90,7 +99,29 @@ public class UserServiceImpl {
 		{
 			throw new UnauthorizedException();
 		}
+    	
+    	byte[] salt=Base64.getDecoder().decode(loUser.getSalt());
+    	
+    	byte[] hash =null;
+    	
+    	KeySpec spec = new PBEKeySpec(poLogin.getPassword().toCharArray(), salt, 65536, 128);
+    	try {
+			SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+			hash = factory.generateSecret(spec).getEncoded();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeySpecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	String lsSubmittedPassword = Base64.getEncoder().encodeToString(hash);
 		
+		if(!lsSubmittedPassword.equals(loUser.getPassword()))
+		{
+			throw new UnauthorizedException();
+		}
 		
 		UUID loToken = UUID.randomUUID();
 		loUser.setToken(loToken.toString());
@@ -120,9 +151,27 @@ public class UserServiceImpl {
     	
     	User loUser = new User();
     	loUser.setLogin(poLogin.getLogin());
-    	//TODO salt the password
-    	loUser.setPassword(poLogin.getPassword());
-    	loUser.setSalt(" ");
+    	//salt the password
+    	SecureRandom random = new SecureRandom();
+    	byte[] salt = new byte[16];
+    	random.nextBytes(salt);
+    	
+    	byte[] hash =null;
+    	
+    	KeySpec spec = new PBEKeySpec(poLogin.getPassword().toCharArray(), salt, 65536, 128);
+    	try {
+			SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+			hash = factory.generateSecret(spec).getEncoded();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeySpecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	loUser.setPassword(Base64.getEncoder().encodeToString(hash));
+    	loUser.setSalt(Base64.getEncoder().encodeToString(salt));
     	
     	return save(loUser);
     

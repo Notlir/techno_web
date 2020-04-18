@@ -86,7 +86,7 @@
                                                 <h2 class="form-heading">Modify series</h2>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="/getSeriesForMe/${element.id}/updateSeries/" method="post" class="form-signin" id="updateSeriesForm">
+                                                <form class="form-signin" id="updateSeriesForm">
                                                     <div class="form-group">
                                                         <label for="title">Enter title: </label>
                                                         <input type="text" class="form-control" name="title" id="title" value="${element.title}" required>
@@ -95,7 +95,7 @@
                                                         <label for="description">Enter a description: </label>
                                                         <input type="text" class="form-control" name="description" id="description" value="${element.description}" required>
                                                     </div>
-                                                <button class="btn btn-lg btn-primary btn-block" type="submit" id="updateSeries">Add</button>
+                                                <button class="btn btn-lg btn-primary btn-block" id="updateSeries" type="button" onClick="updateSerie('${element.id}')">Add</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -131,6 +131,23 @@ function deleteEvent(serieId){
          }
     })
      }
+function updateSerie(serieId){
+    $.ajax({
+         url: '/getSeriesForMe/'+serieId+'/updateSeries',
+         method: 'PUT',
+         data:$("#updateSeriesForm").serialize(),
+         contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+         success: function () {
+             alert('record has been updated');
+             location.reload();
+         },
+         error: function () {
+             alert('/getSeriesForMe/'+serieId+'/updateSeries');
+             location.reload();
+         }
+    })
+     }
+     
  </script>
 
 </html>

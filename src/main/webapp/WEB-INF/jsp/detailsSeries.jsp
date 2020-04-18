@@ -65,7 +65,7 @@
                                                     <h2 class="form-heading">Modify Event</h2>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="/getSeries/${serie.id}/updateEvent/${event.id}" method="post" class="form-signin" id="eventForm">
+                                                    <form class="form-signin" id="UpdateEventForm" name="eventForm">
                                                         <div class="form-group">
                                                             <label for="value">Enter your value: </label>
                                                             <input type="text" class="form-control" name="value" id="value" value="<c:out value='${event.value}'/>" required>
@@ -91,7 +91,7 @@
                                                             </c:if>
                                                         </c:forEach><textarea cols="45" rows="5" id="tags" name="tags">${xv}</textarea>
                                                         </div>
-                                                        <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+                                                        <button class="btn btn-lg btn-primary btn-block" type="button" onClick="updateEvent('${event.id}')">Add</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -118,6 +118,22 @@
                 contentType:'application/x-www-form-urlencoded; charset=UTF-8',
                 success: function () {
                     alert('record has been deleted');
+                    location.reload();
+                },
+                error: function () {
+                    alert('/getSeries/${serie.id}/deleteEvent/'+eventId);
+                }
+            })
+        }
+        
+        function updateEvent(eventId){
+            $.ajax({
+                url: "/getSeries/${serie.id}/updateEvent/"+eventId,
+                method: 'PUT',
+                data:$("#UpdateEventForm").serialize(),
+                contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+                success: function () {
+                    alert('record has been updated');
                     location.reload();
                 },
                 error: function () {

@@ -23,5 +23,6 @@ public interface UserRepositories extends CrudRepository<User, UUID> {
 	
 	@Query("From User u join u.series_with_read_rights w where :timeSeries in w")
 	List<User> findUsersBySeriesWithRead(@Param("timeSeries")TimeSeries poTimeSeries);
+
 	
 }
