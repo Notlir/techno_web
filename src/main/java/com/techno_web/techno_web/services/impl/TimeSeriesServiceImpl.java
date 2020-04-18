@@ -1,6 +1,7 @@
 package com.techno_web.techno_web.services.impl;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -8,6 +9,7 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.techno_web.techno_web.dto.EventDto;
@@ -196,6 +198,31 @@ public class TimeSeriesServiceImpl {
     	
     	moRepository.delete(loTimeSeries);
     	
+    }
+    
+    public void createSeries(String token, TimeSeriesDto poSeries)
+    {
+    	User loUser = moUserService.findUserByEtag(token);
+		
+		if(loUser==null)
+		{
+			throw new UnauthorizedException();
+		}
+		
+		TimeSeries loSeries = new TimeSeries();
+		loSeries.setTitle(poSeries.getTitle());
+		loSeries.setComments(poSeries.getDescription());
+		loSeries.setCreation_date(new GregorianCalendar());
+		
+		if(loUser.getSeries_with_write_rights()==null)
+		{
+			loUser.setSeries_with_write_rights(new ArrayList<TimeSeries>());
+		}
+		
+		loUser.getSeries_with_write_rights().add(loSeries);
+		
+		this.save(loSeries);
+		moUserService.save(loUser);
     }
 	
 }

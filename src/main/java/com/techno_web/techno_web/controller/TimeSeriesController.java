@@ -41,28 +41,9 @@ public class TimeSeriesController {
 	UserServiceImpl moUserService;
 	
 	@PostMapping("/seriesCreation")
-	public ResponseEntity<String> CreateSeries(@RequestBody String title,@RequestHeader("Authorization") String token)
+	public ResponseEntity<String> CreateSeries(@RequestBody TimeSeriesDto poSerie,@RequestHeader("Authorization") String token)
 	{
-		User loUser = moUserService.findUserByEtag(token);
-		
-		if(loUser==null)
-		{
-			return ResponseEntity.status(401).body("Session expirée, merci de vous reconnecter");
-		}
-		
-		TimeSeries loSeries = new TimeSeries();
-		loSeries.setTitle(title);
-		loSeries.setCreation_date(new GregorianCalendar());
-		
-		if(loUser.getSeries_with_write_rights()==null)
-		{
-			loUser.setSeries_with_write_rights(new ArrayList<TimeSeries>());
-		}
-		
-		loUser.getSeries_with_write_rights().add(loSeries);
-		
-		moSeriesService.save(loSeries);
-		moUserService.save(loUser);
+		moSeriesService.createSeries(token, poSerie);
 		
 		return ResponseEntity.ok().build();
 	}
