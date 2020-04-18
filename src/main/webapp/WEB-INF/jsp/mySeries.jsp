@@ -54,7 +54,7 @@
                       </c:if>
                     </td>
                     <td>
-                        <table class="table" class="actionTab">
+                        <table class="table">
                             <tr>
                                 <td class="actionTab">
                                     <button type="button" class="btn btn-default btn-sm btn-success" onclick="document.location='/getSeries/${element.id}';">
@@ -62,10 +62,39 @@
                                     </button>
                                 </td>
                                 <td class="actionTab">
-                                    <button type="button" class="btn btn-default btn-sm btn-primary" onClick="document.location='/giveRightToUsers/{element.id}';">
+                                    <button type="button" class="btn btn-default btn-sm btn-primary" data-toggle="modal" data-target="#modal-toShare-${element.id}">
                                         <span class="glyphicon glyphicon-share"></span>
                                     </button>
                                 </td>
+
+
+                                 <div class="modal fade" id="modal-toShare-${element.id}" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h2 class="form-heading">Share series</h2>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/shareToUser/${element.id}" method="post" class="form-signin" id="updateSeriesForm">
+                                                    <div class="form-group">
+                                                        <label for="title">Give modification right ?</label>
+                                                        <input type="radio" class="radio" name="writeRight" value="1" required/>Yes
+                                                        <input type="radio" class="radio" name="writeRight" value="0" required/>No
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="description">Share to : </label>
+                                                        <input type="text" class="form-control" name="to" id="to" placeholder="Enter Login.." required/>
+                                                    </div>
+                                                <button class="btn btn-lg btn-primary btn-block" type="submit" id="updateSeries">Share</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
                                 <td rowspan="2" class="actionTab">
                                     <button type="button" class="btn btn-default btn-sm btn-info" onClick="document.location='/getSeries/${element.id}/canvas';">
                                         <span class="glyphicon glyphicon-info-sign"></span>

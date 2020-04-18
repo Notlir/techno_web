@@ -46,7 +46,9 @@ public class TimeSeriesWebController {
 	public String getMySeriesForWeb(Model model, @CookieValue("Authorization") String token,HttpServletResponse poResponse)
 	{
 		List<TimeSeriesDto> list = moSeriesService.findSeriesForMe(token);
+		List<User> listUser = moUserService.findAll();
 		model.addAttribute("list", list);
+		model.addAttribute("listUser", listUser);
 		poResponse.addHeader("Cache-Control", "max-age=30");
 		return "mySeries";
 	}
@@ -124,13 +126,25 @@ public class TimeSeriesWebController {
 		return "redirect:/getSeriesForMe";
 	}
 
-	@PostMapping(path="/getSeriesForMe/{id}/updateSeries",
+	@PostMapping(
+			path="/getSeriesForMe/{id}/updateSeries",
 			consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE},
 			produces = {MediaType.TEXT_HTML_VALUE})
 	public String updateTimeSeries(Model model, @CookieValue("Authorization") String token, @PathVariable("id") String idSeries, TimeSeriesDto poUpdatedTimeSeries)
 	{
 		moSeriesService.updateTimeSeries(token, idSeries, poUpdatedTimeSeries);
 
+		return "redirect:/getSeries/"+idSeries;
+	}
+
+	@PostMapping(
+			path="/shareToUser/{id}",
+			consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE},
+			produces = {MediaType.TEXT_HTML_VALUE})
+	public String giveAccessRightToUser(Model model, @CookieValue("Authorization") String token, @PathVariable("id") String idSeries,@RequestParam("to") String givenUserLogin,@RequestParam("writeRight") boolean writeRight)
+	{
+		User givenUser = moUserService.findByLogin(givenUserLogin);
+		moSeriesService.giveRightToUser(token, idSeries, givenUser.getId().toString(), writeRight);
 		return "redirect:/getSeries/"+idSeries;
 	}
 }

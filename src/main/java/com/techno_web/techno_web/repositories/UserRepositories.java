@@ -13,6 +13,9 @@ import java.util.UUID;
 public interface UserRepositories extends CrudRepository<User, UUID> {
 	
 	User findByLogin(String login);
+
+	@Override
+	List<User> findAll();
 	
 	User findByLoginAndPassword(String login,String password);
 	

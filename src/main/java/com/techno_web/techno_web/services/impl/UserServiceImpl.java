@@ -33,6 +33,11 @@ public class UserServiceImpl {
     {
        return moRepository.save(poUser);
     }
+
+	public List<User> findAll()
+	{
+		return moRepository.findAll();
+	}
     
     public User findByLogin(String psLogin)
     {
