@@ -856,82 +856,9 @@ select user0_.id as id1_5_0_, timeseries2_.id as id1_3_1_, timeseries4_.id as id
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM,[*] TIME_SERIES_EVENT_LIST "; expected "identifier"; SQL statement:
 select * from, TIME_SERIES_EVENT_LIST [42001-199]
 >>>>>>> timesSeries-Event
-2020-04-18 14:24:35 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: Writing to nio:/mnt/c/Users/Johann/Desktop/Fac/Programmation/eclipse-workspace/techno_web/data/test.mv.db failed; length 12288 at 8192 [1.4.199/2]" [50000-199]
-	at org.h2.message.DbException.get(DbException.java:194)
-	at org.h2.message.DbException.convert(DbException.java:347)
-	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:90)
-	at org.h2.mvstore.MVStore.handleException(MVStore.java:2787)
-	at org.h2.mvstore.MVStore.panic(MVStore.java:441)
-	at org.h2.mvstore.MVStore.write(MVStore.java:937)
-	at org.h2.mvstore.MVStore.storeNow(MVStore.java:1332)
-	at org.h2.mvstore.MVStore.store(MVStore.java:1190)
-	at org.h2.mvstore.MVStore.commit(MVStore.java:1166)
-	at org.h2.mvstore.MVStore.compactRewrite(MVStore.java:2169)
-	at org.h2.mvstore.MVStore.compact(MVStore.java:2041)
-	at org.h2.mvstore.MVStore.writeInBackground(MVStore.java:2776)
-	at org.h2.mvstore.MVStore$BackgroundWriterThread.run(MVStore.java:3123)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: Writing to nio:/mnt/c/Users/Johann/Desktop/Fac/Programmation/eclipse-workspace/techno_web/data/test.mv.db failed; length 12288 at 8192 [1.4.199/2]" [50000-199]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
-	... 13 more
-Caused by: java.lang.IllegalStateException: Writing to nio:/mnt/c/Users/Johann/Desktop/Fac/Programmation/eclipse-workspace/techno_web/data/test.mv.db failed; length 12288 at 8192 [1.4.199/2]
-	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:883)
-	at org.h2.mvstore.DataUtils.writeFully(DataUtils.java:443)
-	at org.h2.mvstore.FileStore.writeFully(FileStore.java:113)
-	at org.h2.mvstore.MVStore.write(MVStore.java:935)
-	... 7 more
-Caused by: java.io.IOException: Invalid argument
-	at sun.nio.ch.FileDispatcherImpl.pwrite0(Native Method)
-	at sun.nio.ch.FileDispatcherImpl.pwrite(FileDispatcherImpl.java:66)
-	at sun.nio.ch.IOUtil.writeFromNativeBuffer(IOUtil.java:89)
-	at sun.nio.ch.IOUtil.write(IOUtil.java:65)
-	at sun.nio.ch.FileChannelImpl.writeInternal(FileChannelImpl.java:772)
-	at sun.nio.ch.FileChannelImpl.write(FileChannelImpl.java:758)
-	at org.h2.store.fs.FileNio.write(FilePathNio.java:79)
-	at org.h2.mvstore.DataUtils.writeFully(DataUtils.java:439)
-	... 9 more
-2020-04-18 14:24:52 database: could not close the database
-org.h2.message.DbException: General error: "General error: ""java.lang.IllegalStateException: Writing to nio:/mnt/c/Users/Johann/Desktop/Fac/Programmation/eclipse-workspace/techno_web/data/test.mv.db failed; length 12288 at 8192 [1.4.199/2]"" [50000-199]" [50000-199]
-	at org.h2.message.DbException.get(DbException.java:194)
-	at org.h2.engine.Database.close(Database.java:1426)
-	at org.h2.engine.OnExitDatabaseCloser.onShutdown(OnExitDatabaseCloser.java:85)
-	at org.h2.engine.OnExitDatabaseCloser.run(OnExitDatabaseCloser.java:114)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "General error: ""java.lang.IllegalStateException: Writing to nio:/mnt/c/Users/Johann/Desktop/Fac/Programmation/eclipse-workspace/techno_web/data/test.mv.db failed; length 12288 at 8192 [1.4.199/2]"" [50000-199]" [50000-199]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
-	... 4 more
-Caused by: org.h2.message.DbException: General error: "java.lang.IllegalStateException: Writing to nio:/mnt/c/Users/Johann/Desktop/Fac/Programmation/eclipse-workspace/techno_web/data/test.mv.db failed; length 12288 at 8192 [1.4.199/2]" [50000-199]
-	at org.h2.message.DbException.get(DbException.java:194)
-	at org.h2.message.DbException.convert(DbException.java:347)
-	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:90)
-	at org.h2.mvstore.MVStore.handleException(MVStore.java:2787)
-	at org.h2.mvstore.MVStore.panic(MVStore.java:441)
-	at org.h2.mvstore.MVStore.write(MVStore.java:937)
-	at org.h2.mvstore.MVStore.storeNow(MVStore.java:1332)
-	at org.h2.mvstore.MVStore.store(MVStore.java:1190)
-	at org.h2.mvstore.MVStore.commit(MVStore.java:1166)
-	at org.h2.mvstore.MVStore.compactRewrite(MVStore.java:2169)
-	at org.h2.mvstore.MVStore.compact(MVStore.java:2041)
-	at org.h2.mvstore.MVStore.writeInBackground(MVStore.java:2776)
-	at org.h2.mvstore.MVStore$BackgroundWriterThread.run(MVStore.java:3123)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: Writing to nio:/mnt/c/Users/Johann/Desktop/Fac/Programmation/eclipse-workspace/techno_web/data/test.mv.db failed; length 12288 at 8192 [1.4.199/2]" [50000-199]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
-	... 13 more
-Caused by: java.lang.IllegalStateException: Writing to nio:/mnt/c/Users/Johann/Desktop/Fac/Programmation/eclipse-workspace/techno_web/data/test.mv.db failed; length 12288 at 8192 [1.4.199/2]
-	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:883)
-	at org.h2.mvstore.DataUtils.writeFully(DataUtils.java:443)
-	at org.h2.mvstore.FileStore.writeFully(FileStore.java:113)
-	at org.h2.mvstore.MVStore.write(MVStore.java:935)
-	... 7 more
-Caused by: java.io.IOException: Invalid argument
-	at sun.nio.ch.FileDispatcherImpl.pwrite0(Native Method)
-	at sun.nio.ch.FileDispatcherImpl.pwrite(FileDispatcherImpl.java:66)
-	at sun.nio.ch.IOUtil.writeFromNativeBuffer(IOUtil.java:89)
-	at sun.nio.ch.IOUtil.write(IOUtil.java:65)
-	at sun.nio.ch.FileChannelImpl.writeInternal(FileChannelImpl.java:772)
-	at sun.nio.ch.FileChannelImpl.write(FileChannelImpl.java:758)
-	at org.h2.store.fs.FileNio.write(FilePathNio.java:79)
-	at org.h2.mvstore.DataUtils.writeFully(DataUtils.java:439)
-	... 9 more
+2020-04-18 16:18:55 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DROP USER_SERIES_WITH_READ_RIGHTS[*] "; expected "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, VIEW, ROLE, ALIAS, SCHEMA, ALL, DOMAIN, TYPE, DATATYPE, AGGREGATE, SYNONYM"; SQL statement:
+drop USER_SERIES_WITH_READ_RIGHTS [42001-199]
+2020-04-18 16:19:31 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DROP EVENT_TAG[*] "; expected "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, VIEW, ROLE, ALIAS, SCHEMA, ALL, DOMAIN, TYPE, DATATYPE, AGGREGATE, SYNONYM"; SQL statement:
+drop EVENT_TAG [42001-199]

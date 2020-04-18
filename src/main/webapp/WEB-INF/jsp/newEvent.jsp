@@ -9,7 +9,7 @@
                 <form action="/getSeries/${id}/newEvent" method="post" class="form-signin" id="eventForm">
                     <div class="form-group">
                         <label for="value">Enter your value: </label>
-                        <input type="text" class="form-control" name="value" id="value" required>
+                        <input type="number" class="form-control" name="value" id="value" required>
                     </div>
                     <div class="form-group">
                         <label for="comment">Enter your comment: </label>

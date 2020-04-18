@@ -68,7 +68,7 @@
                                                     <form class="form-signin" id="UpdateEventForm" name="eventForm">
                                                         <div class="form-group">
                                                             <label for="value">Enter your value: </label>
-                                                            <input type="text" class="form-control" name="value" id="value" value="<c:out value='${event.value}'/>" required>
+                                                            <input type="number" class="form-control" name="value" id="value" value="<c:out value='${event.value}'/>" required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="comment">Enter your comment: </label>

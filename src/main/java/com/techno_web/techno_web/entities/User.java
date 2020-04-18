@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -41,10 +42,10 @@ public class User {
 	@Column
 	private Calendar token_creation;
 	
-	@OneToMany
+	@ManyToMany
 	private List<TimeSeries> series_with_write_rights;
 	
-	@OneToMany
+	@ManyToMany
 	private List<TimeSeries> series_with_read_rights;
 	
 
