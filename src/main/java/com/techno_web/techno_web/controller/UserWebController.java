@@ -38,7 +38,7 @@ public class UserWebController {
         } catch (Exception loE) {
             return "redirect:/registration/failed";
         }
-        return "redirect:/login";
+        return "redirect:/loginPage";
     }
 
     @PostMapping(
@@ -48,5 +48,15 @@ public class UserWebController {
         Cookie cookie = new Cookie("Authorization", loUserImpl.doLogin(loginWrapper));
         response.addCookie(cookie);
         return "redirect:/getSeriesForMe";
+    }
+
+    @PostMapping(
+            path="/logout",
+            consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    public String logout(@CookieValue("Authorization") String token)
+    {
+        loUserImpl.doLogout(token);
+
+        return "redirect:/loginPage";
     }
 }

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-      <meta charset="utf-8">
+       <jsp:include page='header.jsp'/>
       <title>My TimesSeries</title>
   </head>
     <body>
