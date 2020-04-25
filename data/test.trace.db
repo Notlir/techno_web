@@ -862,3 +862,6 @@ drop USER_SERIES_WITH_READ_RIGHTS [42001-199]
 2020-04-18 16:19:31 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DROP EVENT_TAG[*] "; expected "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, VIEW, ROLE, ALIAS, SCHEMA, ALL, DOMAIN, TYPE, DATATYPE, AGGREGATE, SYNONYM"; SQL statement:
 drop EVENT_TAG [42001-199]
+2020-04-25 17:04:24 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DROP TABLE *[*] "; expected "identifier"; SQL statement:
+drop table * [42001-199]

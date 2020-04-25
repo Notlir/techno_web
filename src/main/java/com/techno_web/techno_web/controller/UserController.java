@@ -34,32 +34,6 @@ public class UserController {
 	@Autowired
 	UserServiceImpl moUserService;
 	
-	
-	
-	
-	@PostMapping("/createDefaultUser")
-	public String createDefaultUser()
-	{
-		User loUser = new User();
-		
-		loUser.setLogin("Denis");
-		loUser.setPassword("aled");
-		loUser.setSalt("123");
-
-		
-		try {
-			moUserService.save(loUser);
-		}catch(Exception loE)
-		{
-			return "ça marche pas";
-		}
-		
-		return "OK";
-	}
-	
-	
-
-	
 	@PostMapping(
 			path="/login",
 			consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE},
@@ -81,7 +55,7 @@ public class UserController {
 	{
 		if(moUserService.doSignUp(poParams)!=null)
 		{
-			return ResponseEntity.ok().build();
+			return ResponseEntity.status(201).build();
 		}
 		else
 		{

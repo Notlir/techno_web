@@ -49,7 +49,7 @@ public class TimeSeriesWebController {
 		List<User> listUser = moUserService.findAll();
 		model.addAttribute("list", list);
 		model.addAttribute("listUser", listUser);
-		poResponse.addHeader("Cache-Control", "max-age=30");
+		poResponse.addHeader("Cache-Control", "max-age=10");
 		return "mySeries";
 	}
 
@@ -59,7 +59,7 @@ public class TimeSeriesWebController {
 	{
 		TimeSeriesDetailDto serie = moSeriesService.getTimeSeriesDetail(id, token);
 		model.addAttribute("serie", serie);
-		poResponse.addHeader("Cache-Control", "max-age=30");
+		poResponse.addHeader("Cache-Control", "max-age=10");
 		return "detailsSeries";
 	}
 

@@ -19,7 +19,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        <h2 class="form-heading">Add Event</h2>
+                                                        <h2 class="form-heading">Add Series</h2>
                                                     </div>
                                                     <div class="modal-body">
                                                         <form action="/getSeriesForMe/newSeries" method="post" class="form-signin" id="seriesForm">

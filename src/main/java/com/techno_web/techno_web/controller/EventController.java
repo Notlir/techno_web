@@ -69,7 +69,7 @@ public class EventController {
 			produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<List<EventDto>> findEventByTag(@RequestHeader("Authorization") String token,@RequestParam("tag")String tag)
 	{
-		CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.SECONDS);
+		CacheControl cacheControl = CacheControl.maxAge(10, TimeUnit.SECONDS);
 		return ResponseEntity.ok().cacheControl(cacheControl).body(moEventService.findEventByTag(token, tag));
 		
 	}
@@ -78,14 +78,14 @@ public class EventController {
 			produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<Integer> findEventByTagsAndDate(@RequestHeader("Authorization") String token,@RequestParam("tag")String tag,@RequestParam("dateFrom")String dateFrom,@RequestParam("dateTo")String dateTo)
 	{
-		CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.SECONDS);
+		CacheControl cacheControl = CacheControl.maxAge(10, TimeUnit.SECONDS);
 		return ResponseEntity.ok().cacheControl(cacheControl).body(moEventService.findTagFrequency(token, tag, dateFrom, dateTo));
 	}
 	
 	@GetMapping(path = "events/timeSinceLastTag")
 	public ResponseEntity<Long> findTimeSinceLastTag(@RequestHeader("Authorization") String token,@RequestParam("tag")String tag)
 	{
-		CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.SECONDS);
+		CacheControl cacheControl = CacheControl.maxAge(10, TimeUnit.SECONDS);
 		return ResponseEntity.ok().cacheControl(cacheControl).body(moEventService.findTimeSinceLastTag(token, tag));
 	}
 
